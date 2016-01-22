@@ -1,0 +1,6 @@
+{{ object.name }}
+{{ object.description }}
+{{ object.image }}
+{{ object.hidden }}
+{{ object.kind }}
+{{ object.subscriptions }}

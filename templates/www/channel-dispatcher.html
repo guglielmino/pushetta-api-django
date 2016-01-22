@@ -1,0 +1,240 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta - {{ channel.name }}{% endblock %}
+{% load storelink from storelink %}
+
+{% block bootstrap3_extra_head %}
+   {{ block.super }} 
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+
+   {% if browser == 'Safari' %}
+   <div class="span12">
+      
+         {% if user.is_authenticated %}
+         <div class="widget"> 
+            <a id="btnSubscribe" href="{% url 'safari-subscribe' channel.name %}" class="btn"><img src="{{ STATIC_URL }}site/img/safari-icon-64.png" width="32px"> Subscribe to <strong>{{ channel.name }}</strong> with Safari</a>
+            
+             <span id="btnRemove" style="display: none">
+             <p><strong>{{ channel.name }}</strong> is subscribed for receiving notifications on Safari Browser</p> <a  href="#" class="btn" ><img src="{{ STATIC_URL }}site/img/safari-icon-64.png"  width="32px"> Unsubscribe Safari <i class="icon-remove-sign"></i></a>
+             </span>
+         </div>
+         
+         
+         {% else %} 
+         <div class="alert alert-info">
+      	   <button type="button" class="close" data-dismiss="alert">×</button>
+               <img src="{{ STATIC_URL }}site/img/safari-icon-64.png" /> Would You like to receive notifications on browser too ? 
+               <a href="{% url "account_login" %}?next={{ request.path }}">Signup</a> or <a href="{% url "account_signup" %}">Signin</a> and use this page to subscribe the Channel.
+            </div>
+         {% endif %}
+      
+   </div>
+   {% endif %}
+
+
+ {% if browser == 'Chrome' %}
+   <div class="span12">
+
+         {% if user.is_authenticated %}
+         <div class="widget">
+            <a id="btnSubscribe" href="{% url 'chrome-subscribe' channel.name %}" class="btn"><img src="{{ STATIC_URL }}site/img/chrome-icon-64.png" width="32px"> Subscribe to <strong>{{ channel.name }}</strong> with Chrome</a>
+            
+            <span id="btnRemove" style="display: none">
+             <p><strong>{{ channel.name }}</strong> is subscribed for receiving notifications on Chrome Browser</p> <a  href="#" class="btn" ><img src="{{ STATIC_URL }}site/img/chrome-icon-64.png"  width="32px"> Unsubscribe Chrome <i class="icon-remove-sign"></i></a>
+             </span>
+         </div>
+         {% else %}
+         <div class="alert alert-info">
+      	   <button type="button" class="close" data-dismiss="alert">×</button>
+               <img src="{{ STATIC_URL }}site/img/chrome-icon-64.png" /> Would You like to receive notifications on browser too ?
+            <a href="{% url "account_login" %}?next={{ request.path }}">Signup</a> or <a href="{% url "account_signup" %}">Signin</a> and use this page to subscribe the Channel.
+            </div>
+         {% endif %}
+
+   </div>
+   {% endif %}
+
+    <div class="span12">
+      <div class="widget">
+         <div class="widget-content cf">
+            <h1>{{ channel.name }}</h1>
+               <div class="accordion-inner">
+                  <img src="{{ channel.image }}" alt="" width="80px" style="margin: 5px"/>
+                     {{ channel.description }}
+                  </div>
+                  
+                  <a class="btn  btn-success" href="#" data-toggle="modal" data-target=".subscribe-channel"><i class="icon-double-angle-right"></i> Subscribe</a>
+                  
+                  
+                  
+                  <hr/>
+
+                  <!-- Facebook -->
+                  <a href="#" id="btnShareOnFb" class="btn"><i class="icon-facebook"></i> Share on Facebook</a>
+                  
+                  <!-- Twitter -->
+                  <a href="https://twitter.com/share?text=Subscribe to my channel {{ channel.name }}"  class="btn"><i class="icon-twitter"></i> Share on Twitter</a>
+
+                               
+               </div>
+         </div>
+   </div>
+   
+   {% if channel.kind == 1 %}
+   
+   <div class="span12">
+      {% include "partials/_messages_list.html" %}
+   </div>
+   {% endif %}
+   
+   
+   <div class="modal fade subscribe-channel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+         <h3 id="myModalLabel">Subscribe channel</h3>
+      </div>
+      <div class="modal-body">
+         <p>If you are interested in receiving notification from <strong>{{ channel.name }}</strong> download one of our Apps from <a href="{% url 'pushetta-downloads' %}">here</a> 
+         </p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="row">
+</div>
+
+   
+   
+</div>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+
+<script type="text/javascript">
+{% if browser == 'Chrome' and user.is_authenticated %}
+
+   var extensionId = "fgbfgdhpimncgdkkkmlcjbgpmlgcldoh";
+   
+   function checkSubscribe() {
+     try {
+            chrome.runtime.sendMessage(extensionId, {
+                 op: 'gettoken',
+             },
+             function(response) {
+                 if (response.token && response.device_id) {
+                     $.ajax({
+                         url: "/browser/register/" + response.device_id + "/{{ channel.name }}/",
+                         success: function(data, textStatus, jqXHR) {
+                           if(jqXHR.status == 200){
+                              $("#btnRemove").show();
+                              $("#btnSubscribe").hide();
+                              
+                           }
+                          },
+                         error: function(jqXHR, textStatus, errorThrown) {
+
+                         }
+                     });
+                 }
+             });
+     } catch (e) {
+        // Pass
+     }
+   }
+   
+   function unsubscribe(){
+      try{
+         chrome.runtime.sendMessage(extensionId, {
+                 op: 'gettoken',
+             },
+             function(response) {
+                 if (response.token && response.device_id) {
+                   $.ajax({
+                     url: "/browser/register/" + response.device_id + "/{{ channel.name }}/",
+                     type: 'DELETE',
+                     success: function(result) {
+                        $("#btnRemove").hide();
+                        $("#btnSubscribe").show();
+                     }
+                  });  
+               }
+             });
+      }
+      catch(e){
+      }
+   }
+{% endif %}   
+   
+{% if browser == 'Safari' and user.is_authenticated %}
+
+  function checkSubscribe() {
+      try {
+
+          if (localStorage.brid) {
+              $.ajax({
+                  url: "/browser/register/" + localStorage.brid + "/{{ channel.name }}/",
+                  success: function(data, textStatus, jqXHR) {
+                      if (jqXHR.status == 200) {
+                          $("#btnRemove").show();
+                          $("#btnSubscribe").hide();
+
+                      }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+
+                  }
+              });
+          }
+
+      } catch (e) {}
+  }
+
+  function unsubscribe() {
+       try {
+               if (localStorage.brid) {
+                  
+                  $.ajax({
+                      url: "/browser/register/" + localStorage.brid + "/{{ channel.name }}/",
+                      type: 'DELETE',
+                      success: function(result) {
+                          $("#btnRemove").hide();
+                          $("#btnSubscribe").show();
+                      }
+                  });
+               }
+       } catch (e) {}
+          
+   }
+{% endif %}
+   
+   
+{% if browser == 'Chrome' or browser == 'Safari' and user.is_authenticated %}
+ 
+   $("#btnRemove").on("click", unsubscribe);
+   checkSubscribe();       
+   
+{% endif %}
+
+
+
+$('#btnShareOnFb').live('click', function(){
+   FB.ui({
+      method: 'share',
+      href: 'http://{{ request.get_host }}{% url 'channel-subscription-dispatcher'  channel.name %}',
+}, function(response){});
+});
+</script>
+
+
+{% endblock %}

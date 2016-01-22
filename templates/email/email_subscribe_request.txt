@@ -1,0 +1,16 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}
+
+A device named {{ dev_name }} is asking to subscribe {{ channel_name }}, to authorize/reject request go to channel edit page at this
+url http://www.pushetta.com{{ channel_admin_url }} .
+
+
+Thanks for using Pushetta
+
+------
+Follow Us on Facebook https://www.facebook.com/www.pushetta
+
+
+{% endblocktrans %}
+{% endautoescape %}

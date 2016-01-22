@@ -1,0 +1,471 @@
+{% extends '__base.html' %}
+{% block title %}Pushetta{% endblock %}
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/faq.css" rel="stylesheet">
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="row">
+
+        <div class="span3 ">
+            <div class="widget-content faq-container">
+                <h2>Documentation</h2>
+                <div class="faq-toc ">
+                    <ol>
+                        <li><a href="#intro">Introduction</a></li>
+                        <li><a href="#howitworks">How it works</a></li>
+                        <li><a href="#create">Creating Channels</a></li>
+                        <li><a href="#adv">Advertise Channels</a></li>
+                        <li><a href="#auth">Authentication</a></li>
+                        <li><a href="#push">Pushing messages</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="span9">
+            <div class="faq-container">
+                <ol class="faq-list">
+
+                    <li id="intro">
+                        <div class="faq-text">
+                            <h2>Introduction</h2>
+
+                            <p>Pushetta is made to make it simple send broadcast communications to groups of subscribers.
+                                It works in a really simple way: as publisher You create a thematic group, every user that subscribes
+                                this group will receive a notification every time You push a message.
+                                <br/>
+                                It can be compared with SMS with many advantages:
+                             </p>
+                            <ol>
+
+                                   <li class="icon-check"> It's <strong>free</strong> of charge</li>
+                                   <li class="icon-check"> No needs of phone numbers or other personal data</li>
+                                   <li class="icon-check"> Sender gets accurate <strong>statistics</strong> about subscribers and
+                                        delivered messages
+                                   </li>
+                                   <li class="icon-check"> Can be extended to support devices other than phones (ie. Smart TV, web
+                                        browsers, ...)
+                                   </li>
+                                </ol>
+                            <p>
+
+                                Integrating Pushetta in Your Application it's really simple. Pushetta exposes his functionality
+                                with a <a href="{% url 'pushetta-api-doc' %}">REST API</a> can be used in a wide range of cases, from
+                                enterprise web application to Arduino sketch.
+
+                            </p>
+
+                        </div>
+                    </li>
+
+                    <li id="howitworks">
+
+                        <div class="faq-text">
+                            <h2>How it works</h2>
+
+                            <p>
+
+                                Push notification are powerful tools but today this power is unexpressed, Pushetta is thought to make
+                                them available for everyone.<br/>
+                                Main field for which is thought (although not limited to) is <a href="http://en.wikipedia.org/wiki/Internet_of_Things">IoT</a>.
+
+                                Take a simple scenario: an Arduino based house automation system where it is necessary to notify the
+                                user against some events .
+                                Today this scenario can be solved with:
+                            </p>
+
+                            <ol>
+
+                                <li class="icon-check"> Email: this is the standard approach and the most hated from users
+                                        (mailboxes are filled of spam)
+                                <li class="icon-check"> SMS: this give many problems, obtain phone numbers, costs per send
+                                <li class="icon-check"> Custom App: developer can make a custom App with push notification support.
+                                        Costs and time can be prohibitive
+
+                            </ol>
+
+                            <p>
+                                Here is where Pushetta comes in help. Our Arduino's developer registers to Pushetta web site and creates
+                                a Channel named "House Alarms".
+                                He takes his API key from <a href="{% url 'pushetta-dashboard' %}">Dashboard</a> and this is all he need
+                                to integrate Pushetta's function to his sketch. Integration it's made using simple <a
+                                    href="{% url 'pushetta-api-doc' %}">API calls</a> usable from many environments and languages.
+                                <br/>
+
+                                Most is done! Downloading one of Pushetta's companion Apps and subscribing the channel created it's all
+                                He need to start to receive push notification on event triggered by custom house automation system.
+                                <br/>
+                                It's also possible to send notification from channel details page which may be useful in testing but
+                                also for custom application which require manual notifications.
+                            </p>
+                        </div>
+                    </li>
+
+                    <li id="create">
+                            <div class="faq-text">
+                            <h2>Creating Channels</h2>
+
+                            <p>First step to begin with Pushetta is to make a Channel.
+                                A Channel represents a topic it will be subscribed by users interested in receiving informations about
+                                this topic.
+                                It can be better explained with a simple use case: a weather forecast company creates a Channel named
+                                "Meteo Torino",
+                                every day the company sends a notification with day forecast. A user that live in Torino can subscribes
+                                to this
+                                Channel using one of Apps and every day a notification will inform him about forecast in Torino.
+                                <br/>
+                                Making a Channel isn't sufficient, You need to broadcast informations You need to advertise existence of
+                                Your Channel,
+                                in <a href="#advertise">Advertising Channels</a> is explained how to.
+                            </p>
+
+                        </div>
+                    </li>
+
+                    <li id="adv">
+                          <div class="faq-text">
+                            <h2>Advertising Channels</h2>
+
+                            <p>Pushetta handles advertising of Channels as well. While time flows the number of channels grows and it can be
+                                really difficult to users find what they search for.
+                                To solve this problem when a Channel is made it's automatically generated an advertise URL. This URL is
+                                smart: opened by a user on a smartphone it opens Pushetta App, if installed, and automatically subscribes to the
+                                channel, also it give information about subscribing channel in other ways (browser, desktop, ...).
+                                It also handles the case where user opening URL doesn't own Pushetta App, the device is detected and,
+                                if available, a link where download the App is displayed.
+
+                            </p>
+
+                        </div>
+                    </li>
+
+                    <li id="auth">
+                       <div class="faq-text">
+                            <h2>Authentication</h2>
+
+                            <p>Pushetta authentication is token based, a User registered on Pushetta get a token he/she have
+                                to use with API calls. You can get Your token from API itself of reading it in <a
+                                        href="{% url 'pushetta-dashboard' %}">Dashboard</a>.
+                                You can also send notifications from web using Channel detail page on this site.
+                            </p>
+
+                        </div>
+                    </li>
+
+                    <li id="push">
+                        <div class="faq-text">
+
+                            <h2>Pushing messages</h2>
+
+                            <p> Pushing a message with API it's made with a single call.
+                                It can be made  from command line of a Linux, Mac or any OS with installed curl as well
+
+                            </p>
+
+                <pre class="prettyprint  lang-bsh">
+                curl -H "Authorization: Token {API KEY}" -H "Content-Type: application/json" -X POST \
+                 -d "{ \"body\" : \"Hello World\", \"message_type\" : \"text/plain\" }"\
+                 http://api.pushetta.com/api/pushes/{Channel Name}/
+                </pre>
+                
+                And in case there is no curl on Your system You can use netcat (thanks to Valerio Morgante) <br />
+                <pre class="prettyprint lang-bash">
+
+               BODY="{ \"body\" : \"Hello World\", \"message_type\" : \"text/plain\" }"
+               
+               echo -ne "POST http://api.pushetta.com/api/pushes/{Channel Name}/ HTTP/1.0\r\nHost: api.pushetta.com\r\nContent-Type: application/json\r\nContent-Length: ${#BODY}\r\nAuthorization: Token {API KEY}\r\n\r\n${BODY}" | nc -i 3 api.pushetta.com 80 
+                </pre>
+
+                            <p>
+                                Naturally it can be made from all populars languages and platforms, following are some samples:
+                            </p>
+                            <ul>
+                                <li><img src="{{ STATIC_URL }}/site/img/arduino_logo_40.png" alt="Arduino Logo"><strong>Arduino
+                                    Yún</strong><br/>
+                                    To use Pushetta with Arduino Yún need the custom library from <a
+                                            href="https://github.com/guglielmino/arduino-pushetta-lib">here</a>
+
+                <pre class="prettyprint  lang-c">
+
+                #include &lt;Bridge.h&gt;
+                #include &lt;Pushetta.h&gt;
+
+                Pushetta pushetta("API KEY");
+
+                void setup() {
+                  Bridge.begin();
+                }
+
+                void loop() {
+                  pushetta.pushMessage("MyChannel", "Hello World"); // Send a message to "MyChannel" subscribers
+                  delay(1000);  // waits for a second
+                }
+
+                </pre>
+                <br />
+                <img src="{{ STATIC_URL }}/site/img/arduino_logo_40.png" alt="Arduino Logo"><strong>Arduino
+                                    with Ethernet Shield</strong><br/>
+                 <pre class="prettyprint  lang-c">
+
+               #include &lt;SPI.h&gt;
+               #include &lt;Ethernet.h&gt;
+                
+               // Be sure this address is unique in your network
+               byte mac[] = { 0x00, 0xAA, 0xBB, 0xCC, 0xDE, 0x19 };        
+               char APIKEY[] = "ffaabb444f1177772222f7243534badaanaa1100"; // Put here your API key
+               char CHANNEL[] = "my channel";                              // and here your channel name
+ 
+               char serverName[] = "api.pushetta.com";
+               boolean lastConnected = false; 
+               EthernetClient client;
+                
+               void setup() {
+                 Serial.begin(9600);
+
+                 if (Ethernet.begin(mac) == 0) {
+                   while(true);                          // no point in carrying on, so do nothing forever
+                 }
+               
+                 delay(1000);                          // give the Ethernet shield a second to initialize
+               }
+                
+               void loop()
+               {
+                     sendToPushetta(CHANNEL, "Hello world!");
+                     delay(60000); 
+               }
+                
+                
+               //Function for sending the request to Pushetta
+               void sendToPushetta(char channel[], String text){
+                 client.stop();
+                
+                 if (client.connect(serverName, 80)) 
+                 {                   
+                   client.print("POST /api/pushes/");
+                   client.print(channel);
+                   client.println("/ HTTP/1.1");
+                   client.print("Host: ");
+                   client.println(serverName);
+                   client.print("Authorization: Token ");
+                   client.println(APIKEY);
+                   client.println("Content-Type: application/json");
+                   client.print("Content-Length: ");
+                   client.println(text.length()+46);
+                   client.println();
+                   client.print("{ \"body\" : \"");
+                   client.print(text);
+                   client.println("\", \"message_type\" : \"text/plain\" }");
+                   client.println(); 
+                 } 
+               }
+
+                </pre>
+
+                                </li>
+                                <li><img src="{{ STATIC_URL }}/site/img/python_logo_40.png" alt="Python Logo"><strong>Python</strong>
+                                <br />
+                                
+                                To use Pushetta with Python You need to install pushetta lib, using following command
+                <pre class="prettyprint lang-bash">
+                pip install pushetta
+                </pre>
+
+                When the lib is installed using it is as simple as the following sample
+                
+                <pre class="prettyprint  lang-py">
+                from pushetta import Pushetta
+                  
+                API_KEY="00112233445566778899aabbccddeeff00112233"
+                CHANNEL_NAME="MyChannel"
+                p=Pushetta(API_KEY)
+                p.pushMessage(CHANNEL_NAME, "Hello World")
+                </pre>
+
+                                </li>
+
+                                <li><img src="{{ STATIC_URL }}/site/img/net_logo_40.png" alt="Microsot .Net Logo"><strong>Microsoft
+                                    .Net</strong>
+
+                <pre class="prettyprint  lang-cs">
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.pushetta.com/api/pushes/MyChannel/");
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Headers.Add("Authorization", "Token {API KEY}");
+
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+
+                    string json = "{ \"body\" : \"Hello World from .Net\", \"message_type\" : \"text/plain\", \"expire\" : \"2015-01-01\"  }";
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+
+                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result = streamReader.ReadToEnd();
+                    }
+                }
+
+                </pre>
+
+                                </li>
+
+                                <li><img src="{{ STATIC_URL }}/site/img/powershell_logo_40.png" alt="PowerShell"><strong>PowerShell
+                                    (thanks to George Rolston)</strong>
+                <pre class="prettyprint">
+                # script requires Powershell 3.0 or later
+
+                # set your Pushetta API Key
+                $ApiKey = 'abcdefghijklmnopqrstuvwxyz123456789'
+                # the name of the specific channel your are posting message to
+                $ChannelName = 'YOURCHANNELNAME'
+                # create the uri to post your message
+                $Uri ='http://api.pushetta.com/api/pushes/' + $ChannelName + '/'
+                # specify the content type of the http request
+                $ContentType = "application/json"
+                # set the method of the http request
+                $Method = "POST"
+                # create a json message for the body of the http request
+                $JsonMsg = @{
+                                body = "Hello World from my $env:COMPUTERNAME";
+                                message_type ="text/plain";
+                                expire ="2015-01-01"
+                                } | ConvertTo-JSON
+                # create the header of the request to store authentication info
+                $Header = @{}
+                # add your key to the header
+                $Header.Add("AUTHORIZATION", " Token $ApiKey");
+                # call http request
+                Invoke-RestMethod -Method $Method -Uri $Uri -Header $Header -Body $JsonMsg -ContentType $ContentType
+                </pre>
+
+                                </li>
+                                
+                                <li><img src="{{ STATIC_URL }}/site/img/php_logo_40.png" alt="PHP"><strong> PHP (thanks to David Pounds)</strong>
+                <pre class="prettyprint">
+$channel = 'YOUR_CHANNEL_NAME';
+$apikey = 'YOUR_API_TOKEN';
+$expire = 'EXPIRY_DATE'; // In YYYY-MM-DD format
+
+$data = array(
+'body' => $message,
+'message_type' => 'text/plain',
+'expire' => $expire
+);
+
+$ch = curl_init("http://api.pushetta.com/api/pushes/$channel/");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', "Authorization: Token $apikey"));
+
+$response = json_decode(curl_exec($ch));
+                </pre>                
+
+                                </li>
+                           
+                                <li><img src="{{ STATIC_URL }}/site/img/java_logo_40.png" alt="PHP"><strong> Java (thanks to Valerio Morgante)</strong>
+                                
+                                <pre class="prettyprint -lang-java">
+//usage
+//
+//edit settings and compile: javac sendPush.java
+//
+//java sendPush your-message
+//
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class sendPush {
+	
+	//settings
+	public static String channel = "your-channel";
+	public static String token = "Token your token";
+
+	public static void main(String[] args) throws Exception {
+ 
+		System.out.println("\nSending PUSH notification to " + channel + " channel");
+		sendPost(args[0]);
+ 
+	}
+
+	public static void sendPost(String message) throws Exception {
+ 
+		String url = "http://api.pushetta.com/api/pushes/" + channel + "/";
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+ 
+		//set reuqest header
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Host", "api.pushetta.com");
+		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+		con.setRequestProperty("Authorization",token);
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+		con.setRequestProperty("Content-Type","application/json");
+		
+		//API parameters
+		String urlParameters = "{ \"body\" : \"" + message + "\", \"message_type\" : \"text/plain\"  }";
+ 
+		// Send post request
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(urlParameters);
+		wr.flush();
+		wr.close();
+ 
+		int responseCode = con.getResponseCode();
+		String responseMessage = con.getResponseMessage();
+		System.out.println("\nSending 'POST' request to URL : " + url);
+		
+		//response information
+		System.out.println("Post parameters : " + urlParameters);
+		System.out.println("Response Code : " + responseCode);
+		System.out.println("Response Message : " + responseMessage);
+		
+		//read response
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		StringBuffer response = new StringBuffer();
+		String inputLine;
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		
+		//complete html page response if you wanna print it
+		String res = response.toString();
+		
+		//extract result
+		int aux = res.indexOf("success");
+		int auxx = res.indexOf(",", aux);
+		System.out.println(res.substring(aux, aux+7) + " : " + res.substring(aux+15, auxx));
+		
+	}
+ 
+}
+                                </pre>
+                                </li>
+                            </ul>
+
+
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

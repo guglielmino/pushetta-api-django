@@ -1,0 +1,202 @@
+{% extends '__base.html' %}
+{% block title %}Pushetta{% endblock %}
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/faq.css" rel="stylesheet">
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="span3 ">
+            <div class="widget-content faq-container">
+                <h2>API</h2>
+
+                <div class="faq-toc">
+                    <ol>
+                        <li class=""><a href="#about"> About</a></li>
+                        <li class=""><a href="#auth"> Auth API</a></li>
+                        <li class=""><a href="#pushes"> Push API</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="span7">
+
+            <section id="info">
+                <h2>About</h2>
+
+                <p>
+                    Pushetta use a very simple API, there are many example about using it from various languages,
+                    here there is documentations about endpoints for implementing custom interfaces.
+                    Authentication is token based, token is normally taken from the dashboard but can be obtained by
+                    calling auth endpoint.
+
+                </p>
+
+            </section>
+
+            <section id="auth">
+                <h2>Authentication : /api/auth/</h2>
+
+                <p>
+                    Get authentication token from user and password.
+                </p>
+
+                <div>
+                    <h4>Request URL</h4>
+
+                    <div class="block request_url">
+                        <pre>POST - http://api.pushetta.com/api/auth/</pre>
+                    </div>
+                    <h4>Request </h4>
+
+                    <div class="block response_body json">
+                  <pre class="json">
+                     <code>
+                         {
+                         "username": "string", (required)
+                         "password": "string" (required)
+                         }
+                     </code>
+                  </pre>
+                    </div>
+                </div>
+
+                <h4>Response</h4>
+
+                <div class="block response_headers">
+            <pre>
+{
+   "token": "string"
+}
+            
+            </pre>
+                </div>
+
+            </section>
+
+            <section id="pushes">
+                <h2>Push : /api/pushes/{channel_name}/</h2>
+
+                <p>
+                    Push a message to subscribers of channel
+                </p>
+
+                <div>
+                    <h4>Request URL</h4>
+
+                    <div class="block request_url">
+                      <pre>POST - http://api.pushetta.com/api/pushes/{channel_name}/</pre>
+                    </div>
+                    <h4>Request </h4>
+
+                    <div class="block response_body json">
+                  <pre class="json">
+                     <code>
+                         {
+                         "body": "string", (required)
+                         "message_type": "string", (required)
+                         "expire": "date ", (optional)
+                         "target": "string" (optional)
+                         }
+                     </code>
+
+                  </pre>
+                        <h4>Parameters</h4>
+                        <ul class="nav nav-pills nav-stacked affix-top">
+                            <li><code>"body"</code>: must contains body of notification to send</li>
+                            <li><code>"message_type"</code>: always "plain/text", provided for evolutions</li>
+                            <li><code>"expire"</code>: expiration of notification, after this date it disappears</li>
+                            <li><code>"target"</code>:if provided it filters what kind of devices will receive
+                                notification (iso, android, ...)
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <h4>Response</h4>
+
+                <div class="block response_headers">
+            <pre>
+{
+   "success": true|false, 
+   "error_code": ""
+}
+         
+         </pre>
+                    <h4>Response statuses</h4>
+                    <ul class="nav nav-pills nav-stacked affix-top">
+                        <li>HTTP Status 201: Message sent</li>
+                        <li>HTTP Status 404: Channel not found</li>
+                        <li>HTTP Status 401: Wrong token</li>
+                    </ul>
+
+                </div>
+
+            </section>
+
+            <!-- '/api/targets/' -->
+            <section id="targets">
+                <h2>Targets list : /api/targets/</h2>
+
+                <p>
+                    Get the list of all possible targets
+                </p>
+
+                <div>
+                    <h4>Request URL</h4>
+
+                    <div class="block request_url">
+                        <pre>GET - http://api.pushetta.com/api/targets/</pre>
+                    </div>
+                </div>
+
+                <h4>Response</h4>
+
+                <div class="block response_headers">
+            <pre>
+[
+    {
+        "target": "wp8"
+    },
+    {
+        "target": "chrome"
+    },
+    {
+        "target": "ios"
+    },
+    {
+        "target": "safari"
+    },
+    {
+        "target": "test"
+    },
+    {
+        "target": "android"
+    },
+    {
+        "target": "iot_device"
+    }
+]         </pre>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block bootstrap3_extra_script %}
+
+{% endblock %}
+
+

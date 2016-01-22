@@ -1,0 +1,126 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}site/css/pages/channels.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <h1> {{ form.subject.errors }}</h1>
+
+    {% if form.subject.errors %}
+        <ol>
+            {% for error in form.subject.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+
+    <div class="span12">
+    <div class="widget ">
+        <div class="widget-header">
+            <i class="icon-plus-sign-alt"></i><h3>Create a new Channel</h3>
+        </div>
+
+        <div class="widget-content">
+
+            {% if form.is_multipart %}
+                <form enctype="multipart/form-data" role="form" method="post" class="form-horizontal">
+            {% else %}
+                <form role="form" method="post" class="form-horizontal">
+            {% endif %}
+
+            {% csrf_token %}
+            <fieldset>
+                <div class="control-group">
+
+                    <label class="control-label" for="image">Channel Icon</label>
+
+                    <div class="controls">
+                         <!-- Gestione ajax upload -->
+                        <img id="uploaded_img" width="80px" height="80px" src="{{ STATIC_URL }}site/img/logo_100_obscured.png"/>
+                        <input id="fileupload" type="file" name="files[]" data-url="{% url 'upload-file' %}"  title="Select an image for Your channel" class="btn btn-primary" data-filename-placement="inside"><br />
+                        <span> Image must be 256x256px </span>
+
+                        {{ form.image }}
+                        {{ form.image.errors }}
+                        <!--	<input type="text" class="span6" id="channel_name" value="John"> -->
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Channel Name</label>
+
+                    <div class="controls">
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                        <!--	<input type="text" class="span6" id="channel_name" value="John"> -->
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="description">Description</label>
+
+                    <div class="controls">
+                        {{ form.description }}
+                        {{ form.description.errors }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="kind">Kind</label>
+
+                    <div class="controls">
+                        {{ form.kind }}
+                        {{ form.kind.errors }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="hidden">Hidden</label>
+
+                    <div class="controls">
+                        {{ form.hidden }}
+                        {{ form.hidden.errors }}
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button type="submit" value="Create" class="btn btn-primary">Create</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+<script src="{{ STATIC_URL }}site/js/jquery.ui.widget.js"></script>
+<script src="{{ STATIC_URL }}site/js/jquery.iframe-transport.js"></script>
+<script src="{{ STATIC_URL }}site/js/jquery.fileupload.js"></script>
+<script src="{{ STATIC_URL }}site/js/bootstrap.file-input.js"></script>
+<script>
+$(function () {
+
+   $('input[type=file]').bootstrapFileInput();
+   
+    $('#fileupload').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+            var res = data.result;
+            $('#errorImageUpload').remove();
+            if(!res.success){
+                var errorImageUpload = "<div id=\"errorImageUpload\" class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button><strong>Wrong Image!</strong>&nbsp;" + res.error + "</div>";
+                $('#uploaded_img').before(errorImageUpload);
+            }
+            else{
+               $('#uploaded_img').attr('src', res.url + res.name)
+               $('#id_image').val(location.protocol + '//' + location.host  + res.url + res.name)
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

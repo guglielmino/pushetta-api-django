@@ -1,0 +1,28 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta - Apps{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="spa12">
+        <div class="widget">
+            <p class="lead">
+                Pushetta is in BETA testing stage. If You want to test the Apps write to <a href="mailto:guglielmino@gumino.com">guglielmino@gumino.com</a>.
+                At today there are three apps in develop: Android (most completed), Windows Phone 8 and iOS.<br/>
+                In email specify which one You are interested for.<br/><br/>
+
+                Many thanks
+            </p>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+{% endblock %}

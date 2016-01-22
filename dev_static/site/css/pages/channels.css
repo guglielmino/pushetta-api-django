@@ -1,0 +1,72 @@
+
+/*------------------------------------------------------------------
+ Channels List
+*/
+
+.channels-items li {
+	display: table;
+	padding: 0 2em 0 1.5em;
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+	margin-left: 2em;
+	margin-top: 2em;
+	border-bottom: 1px dotted #CCC;
+	width: 80%;
+	
+}
+
+.channels-items li:last-child { padding-bottom: 0; border: none; }
+
+.channels-item-date {
+	display: table-cell;
+}
+
+.channels-item-detail {
+	display: table-cell;
+	width: 45%;
+}
+
+.channels-item-title {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.channels-item-date {
+	width: 75px;
+	vertical-align: middle;
+	text-align: center;
+	
+}
+
+.channels-item-day {
+	display: block;
+	margin-bottom: .25em;
+	
+	font-size: 24px;
+	color: #888;
+}
+
+.channels-item-preview {
+	margin-bottom: 0;
+	
+	color: #777;
+}
+
+.channels-item-month {
+	display: block;
+	padding-right: 1px;	
+	
+	font-size: 12px;
+	font-weight: 600;
+	color: #888;
+}
+
+
+.channels-properties li
+{
+   display: inline;
+   list-style-type: none;
+   padding-right: 20px;
+   font-size: 30px;
+}
+	

@@ -1,0 +1,49 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="span6">
+            <div class="widget widget-nopad">
+                <div class="widget-header"><i class="icon-list-alt"></i>
+
+                    <h3> Stats</h3>
+                </div>
+                <!-- /widget-header -->
+                <div class="widget-content">
+                    <div class="widget big-stats-container">
+                        <div class="widget-content">
+                            <h6 class="bigstats">Your Channels stats</h6>
+
+                            <div id="big_stats" class="cf">
+                                <div class="stat"><i class="icon-bell-alt"></i> <span class="value">851</span></div>
+                                <div class="stat"><i class="icon-thumbs-up-alt"></i> <span class="value">423</span></div>
+                                <div class="stat"><i class="icon-twitter-sign"></i> <span class="value">922</span></div>
+                                <div class="stat"><i class="icon-bullhorn"></i> <span class="value">25%</span></div>
+                                <!-- .stat -->
+                            </div>
+                        </div>
+                        <!-- /widget-content -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+    <script src="{{ STATIC_URL }}site/js/jquery-1.7.2.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/excanvas.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/bootstrap.js"></script>
+    <script src="{{ STATIC_URL }}site/js/base.js"></script>
+{% endblock %}

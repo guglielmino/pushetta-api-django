@@ -1,0 +1,65 @@
+{% extends '__base.html' %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block bootstrap3_extra_head %}
+{{ block.super }}
+<link href="{{ STATIC_URL }}site/css/pages/signin.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="account-container register">
+	
+	<div class="content clearfix">
+		
+		<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+		   {% csrf_token %}
+			<h1>Signup for Free Account</h1>			
+			
+			<div class="login-fields">
+				
+				<p>Create your free account:</p>
+				
+				 {{ form.as_p }}
+				
+			</div> <!-- /login-fields -->
+			
+			<div class="login-actions">
+				
+				<span class="login-checkbox">
+					<input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
+					<label class="choice" for="Field">Agree with the Terms & Conditions.</label>
+				</span>
+
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+				<button type="submit" class="button btn btn-primary btn-large">Register</button>
+				
+			</div> <!-- .actions -->
+			
+		</form>
+		
+	</div> <!-- /content -->
+	
+</div> <!-- /account-container -->
+
+
+<!-- Text Under Box -->
+<div class="login-extra">
+	{% blocktrans %}Already have an account?{% endblocktrans %} <a href="{{ login_url }}">Login to your account</a>
+</div> <!-- /login-extra -->
+
+
+<script src="{{ STATIC_URL}}site/js/jquery-1.7.2.min.js"></script>
+<script src="{{ STATIC_URL}}site/js/bootstrap.js"></script>
+<script src="{{ STATIC_URL}}site/js/signin.js"></script>
+
+{% endblock %}
+
+

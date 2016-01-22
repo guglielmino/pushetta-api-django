@@ -1,0 +1,122 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="span12">
+            <div class="widget">
+                <div class="widget-content lead">
+                    <span>Your API Key (read <a href="{% url 'pushetta-docs' %}">documentation</a> about this)</span>
+
+                    <h2 class="value" style="color: blue;">{{ apikey }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if user.channels.count == 0 %}
+
+        <div class="row">
+            <div class="span6">
+                <div class="widget">
+                    <p>
+                        You don't have created any channel right now.
+                    </p>
+
+                    <div class="link_holder">
+                        <a href="{% url 'my-channels' %}" class="btn btn-primary">New Channel »</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="row">
+            <div class="span4">
+                <div class="widget">
+                    <div class="widget-content cf">
+                        <h1>Channels</h1>
+
+                        <div class="stat">
+                            <span class="value">{{ owner_channels_count }}</span>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="widget">
+                    <div class="widget-content">
+                        <h1>Subscribers</h1>
+
+                        <div class="stat">
+                            <span class="value">{{ subscribers_count }}</span>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="widget">
+                    <div class="widget-content">
+                        <h1>Messages</h1>
+
+                        <div class="stat">
+                            <span class="value">{{ messages_count }}</span>
+                            <hr>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span4">
+                <h4>Latest channels</h4>
+                <hr>
+                {% for latest in latest_channels %}
+                    <p><a href="{% url 'my-channelview' latest.name %}">{{ latest.name }}</a>
+                        <span class="light pull-right">{{ latest.date_created }}</span>
+                    </p>
+
+                {% endfor %}
+
+            </div>
+            <div class="span4">
+                <h4>Latest subscribers</h4>
+                <hr>
+                {% for subscriber in subscribers %}
+                <p>
+                    {{ subscriber.name }}
+                    <span class="light pull-right">
+                    {{ subscriber.date_created }}
+                    </span>
+                </p>
+                {% endfor  %}
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
+
+{% block bootstrap3_extra_script %}
+    <script src="{{ STATIC_URL }}site/js/jquery-1.7.2.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/excanvas.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/bootstrap.js"></script>
+    <script src="{{ STATIC_URL }}site/js/base.js"></script>
+{% endblock %}
+
+
+
+ 
+              
+     

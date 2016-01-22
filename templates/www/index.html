@@ -1,0 +1,116 @@
+{% extends '__base.html' %}
+{% block title %}Pushetta{% endblock %}
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/plans.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}site/css/pages/faq.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<div class="row">
+
+   <div class="span6">
+      <iframe width="100%" height="315" src="//www.youtube.com/embed/rLYS4t67J8M" frameborder="0" allowfullscreen></iframe>
+   </div>
+   
+   <div class="span6">
+      <div class="widget">
+         <div class="widget-content" style="min-height: 280px">
+            <h1><img src="{{ STATIC_URL }}site/img/logo_50.png" alt="Pushetta logo" /> Pushetta</h1>
+            <p class="">
+               Pushetta is a system made to push <strong>realtime notifications</strong> to many
+               different devices (mobile phones, browsers, smart TV, ...).<br/>
+               It address a simple problem: get realtime information without using outdated methods (someone
+               said "emails"?).
+               <br />
+               <br />
+               <a class="btn bottom"  href="{% url 'pushetta-docs' %}"><i class="icon-arrow-right"></i> Read more</a>
+            </p>
+         </div>
+      </div>
+   </div>
+      
+</div>
+
+<div class="clearfix"></div>
+<div class="row">
+
+   <div class="span6">
+      <div class="alert alert-warning" style="text-align: left; min-height: 370px">
+         <h2 style="text-align: center"><strong>Pushetta need help!</strong></h2>
+         <p style="margin-right: 8px;float: left; width: 180px">
+            We are growing fast and now it's time to upgrade server infrastructure. <br/>
+            Give us help to expand infrastructure and maintain Pushetta <strong>totally free</strong>.<br/>
+            Use "Contribute" button to make a donation. <br />
+            Many thanks<br />
+            <i>Fabrizio</i>
+         </p>
+         <iframe  frameborder="0" height="240" width="200" scrolling="no" src="http://www.kapipal.com/embed?id=06d6d36a9cf94a2a9a815c760be57b3b&v=1&l=en-US" ></iframe>
+      </div>
+   </div>
+
+   
+
+   <div class="span6">
+      <div class="widget">
+      
+         <div class="widget-content" style="min-height: 350px">
+    
+               <div class="fb-page" data-href="https://www.facebook.com/www.pushetta" data-small-header="true" data-width="500" data-height="340"data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="false" data-show-posts="true">
+                  <div class="fb-xfbml-parse-ignore">
+                     <blockquote cite="https://www.facebook.com/www.pushetta"><a href="https://www.facebook.com/www.pushetta">Pushetta</a></blockquote>
+                  </div>
+               </div>
+   
+         </div>
+      </div> 
+   </div>
+
+</div>
+
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54e1f0a01c05f875" async="async"></script>
+
+{% endblock %}
+{% block bootstrap3_extra_script %}
+    <script src="{{ STATIC_URL }}site/js/jquery-1.7.2.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/excanvas.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/bootstrap.js"></script>
+    <script src="{{ STATIC_URL }}site/js/base.js"></script>
+    <script type="text/javascript">
+        $('.carousel').carousel({
+            interval: 2000
+        });
+    </script>
+    
+    <script type="application/ld+json">
+   {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "url": "http://www.pushetta.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "http://www.pushetta.com/search/?term={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+   }
+   </script>
+   
+   <!-- Facebook Conversion Code for HomePage - Pushetta -->
+   <script>(function() {
+   var _fbq = window._fbq || (window._fbq = []);
+   if (!_fbq.loaded) {
+   var fbds = document.createElement('script');
+   fbds.async = true;
+   fbds.src = '//connect.facebook.net/en_US/fbds.js';
+   var s = document.getElementsByTagName('script')[0];
+   s.parentNode.insertBefore(fbds, s);
+   _fbq.loaded = true;
+   }
+   })();
+   window._fbq = window._fbq || [];
+   window._fbq.push(['track', '6028898357727', {'value':'0.00','currency':'EUR'}]);
+   </script>
+   <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6028898357727&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
+      
+{% endblock %}

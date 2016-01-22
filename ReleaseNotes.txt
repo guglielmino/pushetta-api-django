@@ -1,0 +1,12 @@
+Release 1.0.1
+-------------
+- Codice per ethernet shield
+- Push su browser Safari
+- Push su browser chrome (con extension)
+- Packaging della lib per Python
+
+Release 1.0.2
+-------------
+- Target nel push (per discriminare a quale target inviare) INCOMPLETE
+- Grab della url nel messaggio INCOMPLETE
+- Push con MQTT INCOMPLETE/TESTING

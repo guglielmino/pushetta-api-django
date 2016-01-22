@@ -1,0 +1,108 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css?v=1" rel="stylesheet">
+    <link href="{{ STATIC_URL }}site/css/pages/search.css?v=2" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="span12">
+            <form id="channel-search-form" class="form-search">
+                <div class="input-append span12">
+                    <input type="text" name="search" id="search" class="search-query" placeholder="Search">
+                    <button type="submit" class="btn"><i class="icon-search"></i></button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        {% if suggested.count > 0 %}
+            {% for channel in suggested %}
+                <div class="span3">
+                    <a href="{% url 'channel-subscription-dispatcher' channel.name %}">
+                        <div class="widget">
+                            <div class="widget-content" style="height: 200px">
+
+                                <img src="{{ channel.image }}" alt="channel icon" width="80" height="80"
+                                     style="margin-right: 5px; min-height: 80px;">
+
+                                <h3>  {% if channel.kind == 0 %}
+                                    <img src="{{ STATIC_URL }}site/img/channel_lock.png" style="height: 18px">
+                                {% endif %} {{ channel.name }}
+                                <h3>
+                                <p>
+
+                                    {{ channel.description }}
+                                </p>
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="widget text-center lead" style="text-align: center">
+                <strong >No Channel found</strong>
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+    <script language="JavaScript" src="{{ STATIC_URL }}site/js/pushetta.js"></script>
+    <script src="{{ STATIC_URL }}site/js/excanvas.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/base.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script language="JavaScript">
+
+        jQuery(function () {
+
+            var queryTerm = getQueryParameterByName("term")
+            if (queryTerm){
+               $("#search").val(queryTerm);
+            }
+        
+            $( "#channel-search-form" ).submit(function( event ) {
+
+                var url = "{% url 'site-channel-search' %}" + "?term=" + $("#search").val();
+                 location.href = url;
+                event.preventDefault();
+            });
+
+            $("#search").autocomplete({
+                source: "{% url 'site-channel-search' %}",
+                minLength: 2,
+                select: function (event, ui) {
+                    console.log(ui.item ?
+                            "Selected: " + ui.item.value + " aka " + ui.item.id :
+                            "Nothing selected, input was " + this.value);
+                }
+            })
+            .autocomplete("instance")._renderItem = function (ul, item) {
+               var imgLock = "";
+               if (item.kind == 0){
+                  imgLock = "<img src=\"{{ STATIC_URL }}site/img/channel_lock.png\" style=\"height: 18px\">";
+               }
+                return $("<li>")
+                        .append("<a href=\"/subs/dispatch/"+ item.name +"/\"><img src=\"" + item.image + "\" width=\"80\" height=\"80\"  />&nbsp;" + imgLock + item.name +"</a>")
+                        
+                        .appendTo(ul);
+            };
+
+        });
+
+    </script>
+
+{% endblock %}

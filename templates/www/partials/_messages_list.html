@@ -1,0 +1,38 @@
+<div class="widget widget-nopad">
+
+    <div class="widget-header">
+        <i class="icon-list-alt"></i>
+
+        <h3> Last messages sent</h3>
+    </div>
+
+    <div class="widget-content">
+        <ul class="news-items">
+            {% if channel.messages.count > 0 %}
+                {% for msg in channel.messages.all|slice:":10" %}
+
+                    <li>
+                        <div class="news-item-date"><span
+                                class="news-item-day">{{ msg.date_created|date:"d" }}</span> <span
+                                class="news-item-month">{{ msg.date_created|date:"M" }}</span></div>
+                        <div class="news-item-detail">
+                            <a href="#" class="news-item-title" target="_blank">Expire
+                                on {{ msg.expire|date:"M d" }}</a>
+
+                            <p class="news-item-preview"> {{ msg.body }} </p>
+                        </div>
+                    </li>
+
+                {% endfor %}
+            {% else %}
+                <li>
+                    <div class="news-item-detail">
+                        <p class="news-item-preview"> NO MESSAGES </p>
+                    </div>
+                </li>
+
+            {% endif %}
+        </ul>
+    </div>
+
+</div>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Pushetta</title>
+    <style>@media screen and (max-device-width:480px){body{-webkit-text-size-adjust:none}}
+    
+    </style>
+ 
+    <script src="{{ STATIC_URL }}site/js/jquery-1.7.2.min.js" type="text/javascript" ></script>
+
+    <!-- implement javascript on web page that first first tries to open the deeplink
+        1. if user has app installed, then they would be redirected to open the app to specified screen
+        2. if user doens't have app installed, then their mobile browser wouldn't recongize the URL scheme
+        and app wouldn't open since its not installed. In 1 second (1000 miliseconds) user would be redirected
+        to download app from app store.
+     -->
+    <script type="text/javascript">
+      window.onload = function() {
+         <!-- Invoke URL for existing users with app already installed on their device -->
+         //openPushetta();
+         <!-- Downlaod URL (iTunes link) for new users to download the app -->
+         //setTimeout(downloadPushetta(), 1000);
+      }
+   
+      function openPushetta(){
+         window.location = 'pushetta://subscribe?channel={{ channel.name }}';
+      }
+      
+      function downloadPushetta(){
+        window.location = 'market://details?id=com.gumino.pushetta';
+      }
+    </script>
+    
+    <style>
+    body {
+       margin:0;
+       padding:0;
+       font-family:Helvetica, Arial, Geneva, sans-serif;
+       font-size:14px;
+       color:#555;
+    }
+
+    .mobilebutton {
+         width: 100%;
+         font-size: 20px;
+         padding: 10px;
+         display: block;
+         max-height: 44px;
+         color: white;
+         border-radius: 3px;
+         background-color: black;
+         border: 1px solid silver;
+         cursor: pointer;
+         text-align: center;
+      }
+      
+      .interstitial {
+         background: #fafafa;
+         padding: 40px 12px;
+         font-family: helvetica;
+      }
+      
+      .separator {
+         font-size: 20px;
+         text-align: center;
+         margin: 20px 0;
+         color: #222;
+      }
+      
+      
+      .title{
+         
+         font-size:18px;
+         float: left;
+         font-weight: bold;
+      }
+      
+      .channel_description{
+  
+      }
+      
+    </style>
+</head>
+<body>
+
+   <div class="interstitial">
+   
+      <div >
+         <img src="{{ channel.image }}" alt="{{ channel.name }}" width="80" height="80" style="float: left;" >   
+         <span class="title">{{ channel.name }}</span><br/>
+         <p class="channel_description">
+            {{ channel.description }}
+         </p>
+        
+      <div>
+      
+      <div class="separator">&nbsp;</div>
+       <hr>
+      <button id="btnAppLaunch" class="mobilebutton" onclick="openPushetta();">Open Pushetta </button>
+      <div class="separator"> Or </div>      
+      <button id="btnAppDownload" class="mobilebutton" onclick="downloadPushetta();">Download the App</button>
+      
+    </div>
+
+</body>
+</html>
+ 
+

@@ -1,0 +1,80 @@
+{% extends '__base.html' %}
+{% block title %}Pushetta{% endblock %}
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/faq.css" rel="stylesheet">
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+   <div class="span4">
+      <div class="widget">
+         <div class="widget-content">
+            
+            <h3>Android App</h3>
+            <a href="https://play.google.com/store/apps/details?id=com.gumino.pushetta"><div class="logo_android"></div> Download Android App</a>
+   
+         </div>
+      </div>
+   </div>
+   <div class="span4">
+      <div class="widget">
+         <div class="widget-content">
+            
+            <h3>iOS App</h3>
+            <a href="https://itunes.apple.com/us/app/pushetta/id930851629?l=it&ls=1&mt=8"><div class="logo_apple"  ></div> Download iOS App</a>
+   
+         </div>
+      </div>
+   </div>
+   <div class="span4">
+      <div class="widget">
+         <div class="widget-content">
+            
+            <h3>Windows Phone App</h3>
+            <a href="#"><div class="logo_windows" data-toggle="modal" data-target=".beta-app"></div> Download Windows Phone 8 App</a>
+   
+         </div>
+      </div>
+   </div>
+   
+    <div class="span4">
+      <div class="widget">
+         <div class="widget-content">
+            <img src="{{ STATIC_URL }}site/img/new_label.png"  style="position: absolute; top: 0px; right: 0px; width: 100px;">
+            
+            <h3>Chrome Extension</h3>
+            <a href="https://chrome.google.com/webstore/detail/pushetta-for-chrome/fgbfgdhpimncgdkkkmlcjbgpmlgcldoh"><div style="background: url('{{ STATIC_URL }}site/img/chrome_extension.png');width: 145px;height: 145px;" ></div> Download Chrome Extension</a>
+   
+         </div>
+      </div>
+   </div>
+
+</div>
+
+
+<div class="modal fade beta-app" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+         <h3 id="myModalLabel">App in BETA</h3>
+      </div>
+      <div class="modal-body">
+         <p>This App is BETA, to partecipate in beta testing write to <a href="mailto:guglielmino@gumino.com">guglielmino@gumino.com</a></p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+            
+{% endblock %}
+
+
+{% block bootstrap3_extra_script %}
+
+{% endblock %}
+

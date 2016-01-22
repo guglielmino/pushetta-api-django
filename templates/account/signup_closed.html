@@ -1,0 +1,33 @@
+{% extends '__base.html' %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="span12">
+
+            <div class="widget ">
+                <div class="widget-header">
+                    <i class="icon-user"></i>
+
+                    <h3>{% trans "Sign Up Closed" %}</h3>
+                </div>
+
+                <div class="widget-content">
+
+                    <p  class="lead">{% trans "We are sorry, but the sign up is currently closed." %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+

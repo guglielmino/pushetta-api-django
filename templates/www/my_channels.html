@@ -1,0 +1,104 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}site/css/pages/channels.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="span12">
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                Welcome in Pushetta!<br/>
+                Before start read <a href="{% url 'pushetta-docs' %}">documentation</a> guide to learn fast how to deliver realtime information to
+                many devices.<br/>
+            </div>
+            <!-- widget Channels  -->
+            <div class="widget">
+                <a href="{% url 'my-channelcreate' %}" class="btn btn-large btn-primary">Add a Channel</a><br/>
+            </div>
+            <div class="widget widget-nopad">
+                <div class="widget-header">
+                    <i class="icon-list-alt"></i>
+
+                    <h3>My Channels</h3>
+                </div>
+                <!-- /widget-header -->
+                <div class="widget-content">
+                    <ul class="channels-items">
+                        {% if user_channels %}
+                            {% for channel in user_channels %}
+                                <!-- channel row template -->
+                                <li id="channel"
+                                    onclick="document.location.href='{% url 'my-channelview' channel.name %}' "
+                                    style="cursor:pointer;">
+                                    <!-- Channel Icon -->
+                                    <div class="channels-item-date"><img
+                                            src="{{ channel.image }}"
+                                            alt="channel icon" width="80" height="80" style="margin-right: 5px">
+                                    </div>
+                                    <!-- /Channel Icon -->
+                                    <div class="channels-item-detail">
+                                         {% if channel.kind == 0 %}
+                                            <img src="{{ STATIC_URL }}site/img/channel_lock.png" style="height: 18px">
+                                         {% endif %}
+                                         {{ channel.name }}
+                                        <p class="channels-item-preview">
+
+                                            {{ channel.description }}
+                                        </p>
+                                    </div>
+                                    <!-- Channels data -->
+                                    <div id="big_stats" class="cf">
+                                        <!-- channel subscribers -->
+                                        <div class="stat"><i class="icon-group" title="Subscribers"></i> <span
+                                                class="value" title="Subscribers">{{ channel.subscriptions }}</span>
+                                        </div>
+                                        <!-- messages sent  -->
+                                        <div class="stat"><i class="icon-comments " title="Message sent"></i> <span
+                                                class="value" title="Message sent">{{ channel.messages.count }}</span>
+                                        </div>
+                                        <div class="stat center">
+                                            <span class="value">&nbsp;</span>
+                                            <i class="icon-chevron-right"> </i>
+                                            <span class="value">&nbsp;</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- /channel row template -->
+                            {% endfor %}
+                        {% else %}
+                            <!-- empty row template -->
+                            <li>
+                                <div class="channels-item-date">
+                                    <div class="channels-item-day">
+                                        <i class="icon-warning-sign" style="color: red"></i>
+                                    </div>
+                                </div>
+                                <div class="channels-item-detail lead">
+                                    <strong>No Channel defined</strong>
+                                </div>
+                            </li>
+                            <!-- /empty row template -->
+                        {% endif %}
+                        <li><br></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+    <script src="{{ STATIC_URL }}site/js/excanvas.min.js"></script>
+    <script src="{{ STATIC_URL }}site/js/base.js"></script>
+{% endblock %}

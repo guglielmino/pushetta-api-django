@@ -1,0 +1,142 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta - {{ channel.name }}{% endblock %}
+{% load storelink from storelink %}
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="interstitial">
+
+        <div class="widget">
+
+            <div  style="text-align: center;" >
+                <h1><img src="{{ STATIC_URL }}site/img/safari-icon-64.png" style="width: 32px" /> Subscribing to {{ channel.name }} ...</h1>
+                <img id="imgLoader" src="{{ STATIC_URL }}site/img/loader.gif"/>
+                <br/>
+                <div id="divMessage" style="display: none" class="alert alert-block">
+                    <h4>Error!</h4>
+                    <span id="spanMessage"></span>
+                </div>
+            </div>
+            
+            <div class="widget" style="text-align: center;" >
+					<a href="{% url 'channel-subscription-dispatcher' channel.name %}" class="btn btn-large btn-primary">
+						<i class="icon-chevron-left"></i>
+						&nbsp;
+						Back to {{ channel.name }} page						
+					</a>
+				</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+
+    <script src="{{ STATIC_URL }}site/js/pushetta.js"></script>
+    <!-- Javascript fro Safari push notification -->
+    <script type="text/javascript">
+        var brid = "";
+
+        function registerToken(token) {
+            data = {
+                'channel': '{{ channel.name }}',
+                'token': token,
+                'name': "",
+                'browser': 'safari',
+                'device_id': brid
+            };
+
+            $.ajax(
+                    {
+                        url: '{% url 'browser-registration' %}',
+                        type: 'post',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data, textStatus, jqXHR) {
+
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                        }
+                    });
+        }
+
+        function showMessage(message, isError) {
+            $('#imgLoader').hide();
+            $('#divMessage').removeClass();
+            if (isError) {
+                $('#divMessage').addClass("alert alert-block");
+                $('#divMessage h4').text("Error!");
+            }
+            else {
+                $('#divMessage').addClass("alert alert-info");
+                $('#divMessage h4').text("Info");
+            }
+
+            $('#divMessage').show();
+
+            $('#spanMessage').text(message);
+
+        }
+
+
+        var getPermission = function () {
+            // Ensure that the user can receive Safari Push Notifications.
+            if ('safari' in window && 'pushNotification' in window.safari) {
+                var permissionData = window.safari.pushNotification.permission('web.com.pushetta');
+                checkRemotePermission(permissionData);
+            }
+            else {
+                // TODO: Error about not safari browser
+            }
+        };
+
+        var checkRemotePermission = function (permissionData) {
+            if (permissionData.permission === 'default') {
+                // This is a new web service URL and its validity is unknown.
+                window.safari.pushNotification.requestPermission(
+                        'https://www.pushetta.com/safari', // The web service URL.
+                        'web.com.pushetta',     // The Website Push ID.
+                        {'uid': '{{ user.id }}' }, // Data that you choose to send to your server to help you identify the user.
+                        checkRemotePermission         // The callback function.
+                );
+            }
+            else if (permissionData.permission === 'denied') {
+                // The user said no.
+                console.log("No permission");
+                showMessage("To receive push notification You need to grants permission to Safari", true);
+            }
+            else if (permissionData.permission === 'granted') {
+                // The web service URL is a valid push provider, and the user said yes.
+                // permissionData.deviceToken is now available to use.
+                registerToken(permissionData.deviceToken);
+                console.log("Permission token=" + permissionData.deviceToken);
+                showMessage("Channel " + "{{ channel.name }}" + " subscribed!", false);
+            }
+        };
+
+        // Startup
+        (function () {
+
+            if (localStorage.brid) {
+                brid = localStorage.brid;
+            }
+            else {
+                brid = generateUUID();
+                localStorage.brid = brid;
+            }
+
+            getPermission();
+
+        }());
+
+    </script>
+
+{% endblock %}
+

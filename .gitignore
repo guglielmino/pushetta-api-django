@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.so
+whoosh_index/
+bin/
+uploads/
+log/
+include/
+woosh/
+solr/
+local/
+lib/
+static/
+.idea/
+migrations/

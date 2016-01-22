@@ -1,0 +1,393 @@
+{% extends '__base.html' %}
+
+{% block title %}Pushetta{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}site/css/pages/dashboard.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}site/css/pages/channels.css" rel="stylesheet">
+        
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+            <div class="widget widget-nopad pull-right">
+                <a id="btn-delete-channel" href="#" class="btn btn-large btn-danger">Delete Channel</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <div class="widget widget-nopad">
+                <div class="widget-content">
+                    <h2>&nbsp;&nbsp;&nbsp;<i class="icon-bullhorn"></i> Advertise URL
+                       
+                       <a href="javascript:fbShareLink()"  class="social_icon"><i class="icon-facebook-sign"></i></a>                
+                       <a href="javascript:tweetLink()" target="_blank" class="social_icon"><i class="icon-twitter-sign"></i></a>
+                       <a href="javascript:mailLink()" target="_blank" class="social_icon"><i class="icon-envelope"></i></a>
+                       
+                    </h2>
+                    <a class="span7 big"
+                       href="http://{{ request.get_host }}{% url 'channel-subscription-dispatcher'  channel.name %}">http://{{ request.get_host }}{% url 'channel-subscription-dispatcher'  channel.name %}</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <!-- widget Channels  -->
+            <div class="widget widget-nopad">
+
+                <div class="widget-content" style="height: 231px">
+
+                    <h2> {{ channel.name }}
+                    </h2>
+
+
+                    <div class="accordion-inner">
+                        <img src="{{ channel.image }}" alt="" width="80px" style="margin: 5px"/>
+                        {{ channel.description }}
+                        <hr/>
+
+
+
+                        <div class="pull-right">
+                            <div class="checkbox">
+                                <input id="chk_hidden" type="checkbox" {% if channel.hidden %} checked {% endif %} >
+                                <label for="chk_hidden">
+                                Hidden <em>(doesn't appear in search results)</em>
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <input id="chk_public" type="checkbox" {% if channel.kind != 0  %} checked {% endif %} >
+                                <label for="chk_public">
+                                Public channel <em>(everyone can subscribe it)</em>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <a id="btn-save-options" href="#" class="btn btn-success" style="display: none">Save</a>
+                        </div>
+                        {% if channel.kind == 0 and requests.count > 0 %}
+                        <div class="control-group">
+                            <a id="btn-requests" href="#" class="btn badge" style="background: red;"><i
+                                    class="icon-exclamation-sign"></i> Pending requests</a>
+
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <!-- /widget-content -->
+            </div>
+            <!-- /widget Channels -->
+
+        </div>
+
+        <div class="span6">
+            <!-- widget Channels  -->
+            <div class="widget widget-nopad">
+
+                <div class="widget-content">
+
+                    <h2>&nbsp;&nbsp;&nbsp;<i class="icon-edit"></i> Push a message</h2>
+
+
+                    <div id="push_message_box" class="accordion-inner">
+                        <form name="form_push_message" id="form_push_message" role="form" method="post"
+                              class="form-vertical" action="{% url 'my-channel-pushmessage' channel.name %}">
+
+                            <div class="control-group">
+                                <label class="control-label">Message text</label>
+
+                                <div class="controls">
+                                    <textarea id="id_body" name="body" placeholder="Write the message to push" rows="5"
+                                              style="width: 90%"></textarea>
+
+                                </div>
+                            </div>
+
+                            <a id="btn_submit_push" href="#" class="btn btn-success">Send</a>
+
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- /widget-content -->
+            </div>
+            <!-- /widget Channels -->
+
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Last messages -->
+        <div class="span6">
+        
+        {% include "partials/_messages_list.html" %}
+            
+        </div>
+        <!-- /Last messages -->
+
+        <!-- Las subscribers -->
+        <div class="span6">
+            <div class="widget widget-nopad">
+                <div class="widget-header">
+                    <i class="icon-list-alt"></i>
+
+                    <h3> Last subscribers</h3>
+                </div>
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                    {% if subscribers.count > 0 %}
+                        {% for sub in subscribers %}
+                            <tr>
+                                <td>
+                                    <img src="{{ STATIC_URL }}site/img/device_{{ sub.sub_type }}.png"
+                                         alt="{{ sub.name }}" width="24" height="24">
+                                </td>
+                                <td>
+                                    {{ sub.name }}
+                                </td>
+                                <td>
+                                    {{ sub.date_created }}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3">NO SUBSCRIPTIONS TO <strong>{{ channel.name|upper }}</strong> YET</td>
+                        </tr>
+                    {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- alert cancellazione -->
+    <div id="modal-del-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-header panel-danger">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"><i class="icon-warning-sign"></i> Delete Channel</h3>
+        </div>
+        <div class="modal-body">
+            <p style="color: #FF0000;"><strong>Warning!</strong> Deleting a Channel will remove also all subscriptions
+                and message history</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button id="btn-delete-confirm" class="btn btn-danger">Confirm</button>
+        </div>
+    </div>
+
+    <!-- pop up approvazione richieste -->
+    <div id="modal-approve" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"> Pending requests</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                <tr>
+                    <th>Date</th>
+                    <th>Device name</th>
+                    <th></th>
+                </tr>
+                {% for req in requests %}
+                    <tr>
+                        <td>
+                            {{ req.date_created }}
+                        </td>
+                        <td>
+                            {{ req.subscriber.name }}
+                        </td>
+
+                        <td class="td-actions">
+                            <a id="btn-approve" href="#" class="btn btn-small btn-success" data-reqid="{{ req.id }}"
+                               data-op="APPROVE"><i class="btn-icon-only icon-ok"> </i></a>
+                            <a id="btn-reject" href="#" class="btn btn-danger btn-small" data-reqid="{{ req.id }}"
+                               data-op="REJECT"><i class="btn-icon-only icon-remove"> </i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Ok</button>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+    <script language="JavaScript" src="{{ STATIC_URL }}site/js/pushetta.js"></script>
+    <script>
+
+        $(function () {
+
+            $('#btn-requests').on('click', function () {
+                $('#modal-approve').modal({
+                    show: true
+                });
+            });
+
+            $('#btn-save-options').on('click', function(){
+                var data = {
+                                'channel_id': {{ channel.id }},
+                                'hidden' :  $('#chk_hidden').prop('checked'),
+                                'public' : $('#chk_public').prop('checked')
+                           };
+
+
+                 $.ajax({
+                    type: "POST",
+                    url: "{% url 'my-channelupdate-props'  %}",
+                    success: function (result) {
+                        if (result) {
+                            window.location.reload()
+                        }
+                        else {
+                            // TODO: Alert con errore
+                        }
+                    },
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',  //Default
+                    processData: true,
+                    data: data
+                });
+
+            });
+
+            $('.checkbox').on( "click", function(){
+                $('#btn-save-options').show();
+
+            });
+
+            function change_req_status(req_id, new_status) {
+                var data = {'sub_req_id': req_id, 'new_status': new_status }
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'my-approve-requests'  %}",
+                    success: function (result) {
+                        if (result) {
+                            window.location.reload()
+                        }
+                        else {
+                            // TODO: Alert con errore
+                        }
+                    },
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',  //Default
+                    processData: true,
+                    data: data
+                });
+            }
+
+            $('#btn-approve').live('click', function (e) {
+                var req_id = $(this).data('reqid');
+
+                change_req_status(req_id, 'APPROVE');
+                e.preventDefault();
+            });
+
+            $('#btn-reject').live('click', function (e) {
+                var req_id = $(this).data('reqid');
+
+                change_req_status(req_id, 'REJECT');
+                e.preventDefault();
+            });
+
+            $('#btn-delete-channel').live('click', function (e) {
+                $('#modal-del-confirm').modal({
+                    show: true
+                });
+                $('#btn-delete-confirm').live('click', function (e) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "{% url 'my-channelview' channel.name %}",
+                        success: function (result) {
+                            if (result.Success) {
+                                window.location.href = "{% url 'my-channels'  %}"
+                            }
+                            else {
+                                // TODO: Alert con info cancellazione non riuscita
+                            }
+                        },
+                        dataType: 'json'
+                    });
+                    e.preventDefault();
+                });
+            });
+
+            $("#form_push_message").submit(function (e) {
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+                var method = $(this).attr("method");
+                $.ajax(
+                        {
+                            url: formURL,
+                            type: method,
+                            data: postData,
+                            success: function (data, textStatus, jqXHR) {
+                                //data: return data from server
+                                $("#push_message_box").prepend('<div id="msg_post_push" class="alert alert-info"><button type="button" class="close" data-dismiss="alert">×</button>' +
+                                        '<strong>Message sent!</strong></div>');
+
+                                $('#form_push_message')[0].reset()
+                                setInterval(function () {
+                                    $("#msg_post_push").fadeOut()
+                                }, 5000);
+
+
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                $("#push_message_box").prepend('<div id="msg_post_push" class="alert"><button type="button" class="close" data-dismiss="alert">×</button>' +
+                                        '<strong>Send fail!</strong></div>');
+
+                                setInterval(function () {
+                                    $("#msg_post_push").fadeOut()
+                                }, 5000);
+                            }
+                        });
+
+                e.preventDefault(); //STOP default action
+                //e.unbind(); //unbind. to stop multiple form submit.
+            });
+
+            $('#btn_submit_push').live('click', function (e) {
+                $("#form_push_message").submit(); //Submit
+            });
+        });
+
+    </script>
+    
+    <script language="javascript">
+      function tweetLink(){ 
+         window.open("https://twitter.com/share?url="+escape("http://{{ request.get_host }}{% url 'channel-subscription-dispatcher'  channel.name %}")+"&text=Subscribe to "+"{{ channel.name }}", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false; 
+      }
+      
+      function fbShareLink(){
+         FB.ui({
+            method: 'share',
+            href: "http://{{ request.get_host }}{% url 'channel-subscription-dispatcher'  channel.name %}",
+            }, function(response){});
+      }
+      
+      function mailLink(){
+         window.open("mailto:?Subject=Subscribe to " + "{{ channel.name }}&body=" + "Follow this link to subscribe : http://{{ request.get_host }}{% url 'channel-subscription-dispatcher'  channel.name %}");return false; 
+      }
+    </script>
+{% endblock %}
+

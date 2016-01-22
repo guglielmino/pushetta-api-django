@@ -1,0 +1,181 @@
+{% extends '__bootstrap.html' %}
+
+{% load url from future %}
+{% load bootstrap3 %}
+{% load active from activemenu %}
+
+{% block bootstrap3_extra_head %}
+    <meta name="description" content="Pushetta is a system made to push realtime notifications to many different devices (mobile phones, browsers, smart TV, ...)">
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content="Pushetta, push notifications for all"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="//{{ request.get_host }}{{ STATIC_URL }}site/img/logo_50.png" />
+    <meta property="og:description" content="Pushetta is a system made to push realtime notifications to many different devices (mobile phones, browsers, smart TV, ...)"/>
+    <meta property="fb:admins" content="729198818" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="Pushetta is a system made to push realtime notifications to many different devices (mobile phones, browsers, smart TV, ...)" />
+    <meta name="twitter:title" content="Pushetta, push notifications for all" />
+    <meta name="twitter:description" content="Pushetta is a system made to push realtime notifications to many different devices (mobile phones, browsers, smart TV, ...)" />
+    <meta name="twitter:image" content="//{{ request.get_host }}{{ STATIC_URL }}site/img/logo_50.png" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Custom CSS  -->
+    <link href="{{ STATIC_URL }}site/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ STATIC_URL }}site/css/font-awesome.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="{{ STATIC_URL }}site/css/style.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block css_extra %}
+    (none)
+{% endblock %}
+
+{% block bootstrap3_content %}
+
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/it_IT/sdk.js#xfbml=1&appId=440245259461696&version=v2.3";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span> </a>
+                <a class="brand" href="{% url 'pushetta-index' %}">Pushetta</a>
+                <ul class="nav pull-right">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url "account_logout" %}"><i class="icon-signout"></i> logout </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url "account_login" %}"><i class="icon-signin"></i> <strong>Login</strong></a>
+                        </li>
+                        <li>
+                            <a href="{% url "account_signup" %}"><i class="icon-user"></i> <strong>Signup</strong></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /navbar-inner -->
+    </div>
+
+    <div class="subnavbar">
+        <div class="subnavbar-inner">
+            <div class="container">
+                <ul class="mainnav">
+                    {% if user.is_authenticated %}
+                        <li class="{% active 'pushetta-dashboard' %}"><a href="{% url 'pushetta-dashboard' %}"><i class="icon-dashboard"></i><span>Dashboard</span>
+                        </a></li>
+                        <li class="{% active 'my-channels' %}"><a href="{% url 'my-channels' %}"><i
+                                class="icon-bell"></i><span>Channels</span> </a></li>
+                    {% endif %}
+                    <li class="{% active 'pushetta-search' %}"><a href="{% url 'pushetta-search' %}"><i class="icon-search"></i><span>Search</span> </a></li>
+                    <li class="{% active 'pushetta-api-doc' %}"><a href="{% url 'pushetta-api-doc' %}"><i class="icon-list-alt"></i><span>API</span> </a></li>
+                    <li class="{% active 'pushetta-docs' %}"><a href="{% url 'pushetta-docs' %}"><i class="icon-book"></i><span>Docs</span> </a></li>
+                    <li class="{% active 'pushetta-downloads' %}"><a href="{% url 'pushetta-downloads' %}"><i class="icon-cloud-download"></i><span>Downloads</span> </a></li>
+
+
+                </ul>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /subnavbar-inner -->
+    </div>
+
+    <div class="main">
+        <div class="main-inner">
+            <div class="container">
+                {% block content %}
+
+
+
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <div class="extra">
+  <div class="extra-inner">
+    <div class="container">
+      <div class="row">
+                    <div class="span3">
+                        <h4>
+                            Follow Us</h4>
+                        <ul>
+                            <li><a href="https://www.facebook.com/www.pushetta"><img src="{{ STATIC_URL }}site/img/webicon-facebook.png" style="width: 20px" > Facebook</a></li>
+                            <li><a href="https://twitter.com/hashtag/pushetta"><img src="{{ STATIC_URL }}site/img/webicon-twitter.png" style="width: 20px" > Twitter</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="span3">
+                        <h4>
+                            Using pushetta</h4>
+                        <ul>
+                            <li><a href="{% url 'pushetta-api-doc' %}">API</a></li>
+                            <li><a href="{% url 'pushetta-docs' %}">Documentation</a></li>
+
+                        </ul>
+                    </div>
+
+                    <div class="span3">
+                        <h4>
+                            Something Legal</h4>
+                        <ul>
+                            <!-- <li><a href="#">Terms of Use</a></li> -->
+                            <li><a href="{% url 'cookie_policy' %}">Cookie Policy</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /extra-inner -->
+</div>
+
+    <div class="footer">
+  <div class="footer-inner">
+    <div class="container">
+      <div class="row">
+        <div class="span12"> © 2014 <a href="http://www.gumino.com/">Gumino.com</a>. </div>
+        <!-- /span12 --> 
+      </div>
+      <!-- /row --> 
+    </div>
+    <!-- /container --> 
+  </div>
+  <!-- /footer-inner --> 
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-56539552-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script language="JavaScript" src="{{ STATIC_URL }}site/js/cookie_banner.js"></script>
+
+{% endblock %}
+
+
+
