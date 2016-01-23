@@ -76,11 +76,6 @@ def search_reindex():
 def sendMailMessage(subject, body, rcpts):
     msg = EmailMessage(subject, body, 'support@gumino.com', rcpts, headers={'Reply-To': 'no-reply@pushetta.com'})
     msg.send()
-    # send_mail(subject, body, 'support@gumino.com', rcpts, fail_silently=False)
-    # Invio con AMAZON
-    #connection = SESConnection(aws_access_key_id='AKIAICAEXUMLQ77N25ZQ', aws_secret_access_key='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', debug=0)
-    #connection.send_email('no-reply@petaboo.org', subject, body, rcpts, format='html', reply_addresses='no-reply@petaboo.org')
-
 
 LOCK_EXPIRE = 60 * 5  # Lock expires in 5 minutes
 
