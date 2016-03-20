@@ -56,6 +56,7 @@ def grab_url_screenshot(url):
                 full_path = os.path.join(settings.MEDIA_ROOT, image_path)
 
                 ghost.capture_to(full_path)
+                ghost.page = None
 
                 image_path = image_path.replace(".png", ".thumb.png")
                 thumb_full_path = os.path.join(settings.MEDIA_ROOT,image_path)
