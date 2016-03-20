@@ -47,22 +47,22 @@ def grab_url_screenshot(url):
         if not url_res.scheme:
             url = "http://" + url
 
-        # TODO: Può essere un singleton Ghost?
-        ghost = Ghost()
-        page, res = ghost.open(url)
-        if not page is None and page.http_status == 200:
-            url_sha256 = hashlib.sha256(url).hexdigest()
-            image_path = os.path.join('url_previews', url_sha256 + ".png")
-            full_path = os.path.join(settings.MEDIA_ROOT, image_path)
+        g = Ghost()
+        with g.start() as ghost:
+            page, res = ghost.open(url)
+            if not page is None and page.http_status == 200:
+                url_sha256 = hashlib.sha256(url).hexdigest()
+                image_path = os.path.join('url_previews', url_sha256 + ".png")
+                full_path = os.path.join(settings.MEDIA_ROOT, image_path)
 
-            ghost.capture_to(full_path)
+                ghost.capture_to(full_path)
 
-            image_path = image_path.replace(".png", ".thumb.png")
-            thumb_full_path = os.path.join(settings.MEDIA_ROOT,image_path)
-            resize_and_crop(full_path, thumb_full_path, (550, 500))
-            ret = urljoin(settings.BASE_URL,  "uploads/" + image_path)
-        else:
-            logger.error("Failed to capture screenshot for {0}".format(url))
+                image_path = image_path.replace(".png", ".thumb.png")
+                thumb_full_path = os.path.join(settings.MEDIA_ROOT,image_path)
+                resize_and_crop(full_path, thumb_full_path, (550, 500))
+                ret = urljoin(settings.BASE_URL,  "uploads/" + image_path)
+            else:
+                logger.error("Failed to capture screenshot for {0}".format(url))
     except Exception, e:
         logger.exception(e)
     finally:
