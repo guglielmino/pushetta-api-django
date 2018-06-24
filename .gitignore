@@ -16,6 +16,5 @@ migrations/
 venv/.Python
 venv/pip-selfcheck.json
 /log/
-/database.env
-/pusheta.env
+*.env
 /venv/
