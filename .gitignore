@@ -13,3 +13,9 @@ lib/
 static/
 .idea/
 migrations/
+venv/.Python
+venv/pip-selfcheck.json
+/log/
+/database.env
+/pusheta.env
+/venv/
