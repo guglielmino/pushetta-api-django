@@ -1,7 +1,7 @@
 # coding=utf-8
 
 ###
-# Django settings for pushetta project.
+#  Django settings for pushetta project.
 ###
 
 
@@ -9,14 +9,14 @@ import os
 import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-ENVIRONMENT = os.environ['DJANGO_ENV'] # Env variable "dev" or "prod"
-BASE_URL="http://www.pushetta.com"
+ENVIRONMENT = os.getenv('DJANGO_ENV', 'dev')  # Env variable "dev" or "prod"
+BASE_URL = os.getenv("PUSHETTA_URL", "http://www.pushetta.com")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # Secret key in environment variable
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.getenv('SECRET_KEY', 'Ee7vGi-ING6n02gkcJ-QLHg6vFw')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,7 +26,6 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = ['localhost', ]
 
 SITE_ID = 1
-
 
 # Application definition
 
@@ -91,17 +90,15 @@ AUTHENTICATION_BACKENDS = (
 ROOT_URLCONF = 'pushetta.urls'
 WSGI_APPLICATION = 'pushetta.wsgi.application'
 
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DATABASE_NAME',
-        'TEST_NAME' : 'TEST_DATABASE_NAME',
-        'USER': 'DATABASE_USER',
-        'PASSWORD': 'DATABASE_PASSWORD',
-        'HOST': '',
-        'PORT': '',
+        'NAME': os.getenv('DATABASE_NAME', 'pushetta'),
+        'TEST_NAME': os.getenv('TEST_DATABASE_NAME', 'pushetta_test'),
+        'USER': os.getenv('DATABASE_USER', 'pushetta_usr'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'Pu$h3tta'),
+        'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DATABASE_PORT', '3306'),
     }
 }
 
@@ -111,16 +108,16 @@ TEMPLATE_DIRS = (
 )
 
 # Credenziali per il push su Mosquitto
-MOSQ_HOST="localhost"
-MOSQ_PORT=1884
-MOSQ_USERNAME="USER"
-MOSQ_PASSWORD="PASSWORD"
+MOSQ_HOST = os.getenv("MOSQ_HOST", "locahost")
+MOSQ_PORT = os.getenv("MOSQ_PORT", 1884)
+MOSQ_USERNAME = os.getenv("MOSQ_USERNAME", "USER")
+MOSQ_PASSWORD = os.getenv("MOSQ_PASSWORD", "PASSWORD")
 # Configurazione per il brocker di backend di Celery
-BROKER_URL = 'amqp://USER:PASSWORD@localhost:5672/pushetta'
+BROKER_URL = os.getenv("BROKER_URL", 'amqp://USER:PASSWORD@localhost:5672/pushetta')
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-CELERY_TIMEZONE = 'Europe/Rome'
+CELERY_TIMEZONE = os.getenv("CELERY_TIMEZONE", 'Europe/Rome')
 
-CELERY_ALWAYS_EAGER = True                  
+CELERY_ALWAYS_EAGER = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 
 LOGIN_REDIRECT_URL = '/'
@@ -133,10 +130,10 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
 # Configurazione per l'invio delle email
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", '')
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", '')
 EMAIL_BACKEND = 'django_ses.SESBackend'
-DEFAULT_FROM_EMAIL = ''
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", '')
 
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
@@ -177,28 +174,27 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL' : u"http://localhost:8081/solr",
+        'URL': u"http://localhost:8081/solr",
     },
 }
 HAYSTACK_IDENTIFIER_METHOD = 'core.utils.custom_get_identifier'
 
 SWAGGER_SETTINGS = {
-    "exclude_namespaces": ["feedback-api", "messages-api", "publisher-api", "subscribers-api", "subscriptions-api", "android-api"],  # List URL namespaces to ignore
+    "exclude_namespaces": ["feedback-api", "messages-api", "publisher-api", "subscribers-api", "subscriptions-api",
+                           "android-api"],  # List URL namespaces to ignore
     "api_version": '1.0',  # Specify your API's version
     "api_path": "/",  # Specify the path to your API not a root level
     "enabled_methods": [  # Specify which methods to enable in Swagger UI
-                          'get',
-                          'post',
-                          'put',
-                          'patch',
-                          'delete'
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
     ],
     "api_key": '',  # An API key
     "is_authenticated": False,  # Set to True to enforce user authentication,
     "is_superuser": False,  # Set to True to enforce admin only access
 }
-
-
 
 # Configurazione per l'utilizzo di Redis
 REDIS_DB = 0
@@ -215,7 +211,7 @@ APNS_KEY_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem")
 APNS_IS_SANDBOX = True
 
 # Push notifications on Safari browser
-APNS_SAFARI_CERT_FILE=os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem")
+APNS_SAFARI_CERT_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem")
 APNS_SAFARI_KEY_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem")
 APNS_SAFARI_IS_SANDBOX = True
 
@@ -235,9 +231,9 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-#STATIC_ROOT = os.path.join(BASE_DIR, '..', 'dev_static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, '..', 'dev_static/')
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '..', '..', 'static/collect/')
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static/collect/')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '..', "dev_static/"),
 )
@@ -274,7 +270,7 @@ LOGGING = {
             'level': 'INFO',
             'filters': None,
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', '..', 'log/pushetta-{0}.log'.format(ENVIRONMENT)),
+            'filename': os.path.join(BASE_DIR, '..', 'log/pushetta-{0}.log'.format(ENVIRONMENT)),
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 3,
             'formatter': 'standard'
@@ -283,7 +279,7 @@ LOGGING = {
             'level': 'DEBUG',
             'filters': None,
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', '..', 'log/debug-{0}.log'.format(ENVIRONMENT)),
+            'filename': os.path.join(BASE_DIR, '..', 'log/debug-{0}.log'.format(ENVIRONMENT)),
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'standard'
@@ -292,7 +288,7 @@ LOGGING = {
             'level': 'WARNING',
             'filters': None,
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', '..', 'log/default-{0}.log'.format(ENVIRONMENT)),
+            'filename': os.path.join(BASE_DIR, '..', 'log/default-{0}.log'.format(ENVIRONMENT)),
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 2,
             'formatter': 'standard'
@@ -301,7 +297,7 @@ LOGGING = {
             'level': 'DEBUG',
             'filters': None,
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', '..', 'log/celery-{0}.log'.format(ENVIRONMENT)),
+            'filename': os.path.join(BASE_DIR, '..', 'log/celery-{0}.log'.format(ENVIRONMENT)),
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 2,
             'formatter': 'standard'
@@ -310,7 +306,7 @@ LOGGING = {
             'level': 'DEBUG',
             'filters': None,
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', '..', 'log/celery-tasks-{0}.log'.format(ENVIRONMENT)),
+            'filename': os.path.join(BASE_DIR, '..', 'log/celery-tasks-{0}.log'.format(ENVIRONMENT)),
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 2,
             'formatter': 'standard'
@@ -354,6 +350,3 @@ LOGGING = {
         },
     }
 }
-
-
-

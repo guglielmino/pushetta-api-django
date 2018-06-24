@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+
+  pushetta:
+    build: .
+    #command: python manage.py runserver 0.0.0.0:8000
+    expose:
+      - 8001
+    ports:
+      - 8001:8001
+    depends_on:
+      - db
+      - redis
+      - solr
+      - rabbit
+    env_file:
+     - ./pushetta.env
+
+  db:
+    image: mysql:5.5
+    container_name: db
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    env_file:
+     - ./database.env
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    expose:
+      - 5672
+    ports:
+      - 5672:5672
+
+  solr:
+    image: solr:7.3
+    container_name: solr
+    ports:
+     - "8983:8983"
+
+  redis:
+    image: redis:3.2
+    container_name: redis
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+
+  mosquitto:
+    image: eclipse-mosquitto:1.4.12
+    container_name: mosquitto
+    ports:
+      - 1883:1883
+    expose:
+      - 1883
+
+
