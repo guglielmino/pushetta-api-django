@@ -3,6 +3,8 @@ sudo: required
 services:
   - docker
 
+install: []
+
 script:
   - docker build -t guglielmino/pushetta-api .
 
