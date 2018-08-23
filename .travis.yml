@@ -1,0 +1,15 @@
+sudo: required
+
+services:
+  - docker
+
+install: []
+
+script:
+  - docker build -t guglielmino/pushetta-api .
+
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: feature/travis-ci
