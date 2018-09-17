@@ -1,14 +1,20 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 
 # Progetto: Pushetta API 
 # Models 
+
+from __future__ import unicode_literals
+
+from django.db import models
+
+
 
 import os
 from uuid import uuid4
 
 from datetime import datetime
 from django.contrib.auth.models import User
-from django.db import models
+
 
 from django.db.models import signals
 

@@ -1,12 +1,13 @@
-# coding=utf-8
-
 # Progetto: Pushetta API 
 # Test for core app 
 
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.test import TestCase
+
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from core.models import *
 from core.push_providers.common import PushProviderException

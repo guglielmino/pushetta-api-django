@@ -1,9 +1,11 @@
-# coding=utf-8
-
+# -*- coding: utf-8 -*-
 # Progetto: Pushetta API 
 # Estensioni della Admin
 
+from __future__ import unicode_literals
+
 from django.contrib import admin
+
 from models import Channel, ChannelMsg, Subscriber, StoredImage
 
 class ChannelAdmin(admin.ModelAdmin):

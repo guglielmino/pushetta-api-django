@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
       - redis
-      - solr
+      - elastic
       - rabbit
     env_file:
       - ./pushetta.env
@@ -34,11 +34,21 @@ services:
     ports:
       - 5672:5672
 
-  solr:
-    image: actency/solr-3.6
-    container_name: solr
+  elastic:
+    image: elasticsearch:2
+    container_name: elastic
     ports:
-      - "8983:8983"
+      - '9200:9200'
+    expose:
+      - 9200
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+    cap_add:
+      - IPC_LOCK
+
 
   redis:
     image: redis:3.2

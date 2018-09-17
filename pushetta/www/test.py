@@ -1,9 +1,11 @@
-# coding=utf-8
-
 # Progetto: Pushetta Site 
 # Test delle view del progetto
 
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.test import TestCase
+
 from django.core.urlresolvers import reverse
 from core.models import Subscriber, Channel, User
 from core.services import *

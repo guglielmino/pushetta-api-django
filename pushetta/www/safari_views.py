@@ -1,7 +1,8 @@
-# coding=utf-8
-
 # Progetto: Pushetta Site 
 # Class view per la gestione dei metodi legati alla gestione del token per le push su Safari
+
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import os
 import json
@@ -23,7 +24,8 @@ from django.template import RequestContext
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.files import File
-from django.core.servers.basehttp import FileWrapper
+
+from wsgiref.util import FileWrapper
 
 from core.subscriber_manager import SubscriberManager
 from core.services import ask_subscribe_channel, unsubscribe_channel, get_device_subscriptions

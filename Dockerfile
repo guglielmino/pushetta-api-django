@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 
 COPY install.txt ./
 # pip doesn't follow requirements file order then the following hack
-RUN cat install.txt | xargs -n 1 pip install --no-cache-dir
+RUN cat requirements.txt | xargs -n 1 pip install --no-cache-dir
 COPY . .
 
 RUN chown -R pushetta /usr/src/app

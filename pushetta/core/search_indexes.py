@@ -20,9 +20,9 @@ class ChannelIndex(indexes.ModelSearchIndex, indexes.Indexable):
 
 
 class ChannelIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.EdgeNgramField(document=True, use_template=True)
     
-    name = indexes.NgramField(model_attr='name')
+    name = indexes.CharField(model_attr='name')
     description = indexes.CharField(model_attr='description')
     image = indexes.CharField(model_attr='image')
     hidden = indexes.BooleanField(model_attr='hidden')

@@ -1,7 +1,9 @@
-# coding=utf-8
-
 # Progetto: Pushetta Site 
 # Class view per la gestione delle view dell'area privata (/my)
+
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 
 import json
 

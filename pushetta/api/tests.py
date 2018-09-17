@@ -1,8 +1,11 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 
 # Progetto: Pushetta API 
 # Test for api app 
 
+from __future__ import unicode_literals
+
+from django.test import TestCase
 
 import json
 import random
