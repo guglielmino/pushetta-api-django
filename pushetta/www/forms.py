@@ -13,6 +13,7 @@ class ChannelForm(ModelForm):
     class Meta:
         model = Channel
         fields = ['name', 'image', 'description', 'kind', 'hidden']
+
         widgets = {
             'name': forms.TextInput(attrs={
                                             'class': 'span6',

@@ -88,12 +88,14 @@ STATICFILES_FINDERS = (
 )
 
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [ 
-            os.path.join(BASE_DIR, '..', 'templates'),
-            os.path.join(BASE_DIR, '..', 'templates/www'),
+            os.path.join(BASE_DIR, '..', 'templates/'),
+            os.path.join(BASE_DIR, '..', 'templates/www/'),
+            os.path.join(BASE_DIR, '..', 'templates/search/'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {

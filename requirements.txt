@@ -4,7 +4,7 @@ apns==2.0.1
 asn1crypto==0.24.0
 billiard==3.3.0.16
 bitarray==0.8.1
-boto==2.32.1
+boto==2.39.0
 celery==3.1.10
 certifi==2018.8.24
 cffi==1.11.5
@@ -12,7 +12,7 @@ chardet==3.0.4
 click==6.7
 cryptography==2.2.2
 cssselect==0.9.1
-Django==1.8.19
+Django==1.8.19  
 django-allauth==0.29.0
 django-bootstrap3==9.1.0
 django-debug-toolbar==1.2.1

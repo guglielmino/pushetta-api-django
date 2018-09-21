@@ -1,4 +1,4 @@
 {
     "python.linting.enabled": false,
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "autopep8"
 }

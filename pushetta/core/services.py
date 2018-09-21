@@ -103,7 +103,7 @@ def search_public_channels(query):
     """
     sqs = SearchQuerySet().models(Channel).filter_or(name__contains=Clean(query)).filter_or(
         description__contains=Clean(query))
-    return sqs.filter(hidden=False)
+    return sqs.filter(hidden='false') # Note: with False (Python Standard bool value) the Elasticsearch query is wrong
 
 
 def set_read_feedback_multiple(deviceId, messageIds):

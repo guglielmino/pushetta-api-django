@@ -1,12 +1,12 @@
-FROM python:2.7.15
+FROM python:2.7.15-alpine3.6
 
 ENV PYTHONUNBUFFERED 1
 
-RUN adduser --disabled-password --gecos '' pushetta
+RUN adduser -D -g '' pushetta
 
 WORKDIR /usr/src/app
 
-COPY install.txt ./
+COPY requirements.txt ./
 # pip doesn't follow requirements file order then the following hack
 RUN cat requirements.txt | xargs -n 1 pip install --no-cache-dir
 COPY . .

@@ -154,7 +154,7 @@ class ChannelCreate(CreateView):
     template_name = "my_channel-add.html"
     # model = Channel
     form_class = ChannelForm
-    fields = ['name', 'image', 'description', 'kind', 'hidden']
+    #fields = ['name', 'image', 'description', 'kind', 'hidden']
 
 
     def form_valid(self, form):

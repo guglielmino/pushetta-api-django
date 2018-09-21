@@ -36,4 +36,4 @@ class ChannelIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
         # filter(kind!=PRIVATE).
-        return self.get_model().objects.filter(hidden=False)
+        return self.get_model().objects.filter(hidden='false')
