@@ -181,21 +181,14 @@ STATICFILES_DIRS = (
 )
 
 # Settings for django-bootstrap3
-""" BOOTSTRAP3 = {
+BOOTSTRAP3 = {
     'include_jquery': False,
     'jquery_url': '/static/site/js/jquery-1.7.2.min.js',
     'base_url': '/static/site/',
     'css_url': '/static/site/css/bootstrap.min.css',
     'javascript_url': '/static/site/js/bootstrap.js',
 }
- """
 
-# Settings for django-bootstrap3
-BOOTSTRAP3 = {
-    "error_css_class": "bootstrap3-error",
-    "required_css_class": "bootstrap3-required",
-    "javascript_in_head": True,
-}
 
 # Media (file uploads)
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploads/')
@@ -292,10 +285,10 @@ SWAGGER_SETTINGS = {
 }
 
 # Configurazione per l'utilizzo di Redis
-REDIS_DB = 0
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-REDIS_KEY_PREFIX = "ptta_dev"
+REDIS_DB = os.getenv('REDIS_DB', '0')
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT =  os.getenv('REDIS_PORT', '6379')
+REDIS_KEY_PREFIX = os.getenv('REDIS_KEY_PREFIX', 'ptta_dev')
 
 # Google cloud messaging
 GCM_KEY = ""

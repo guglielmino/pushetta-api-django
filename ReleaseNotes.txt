@@ -10,3 +10,9 @@ Release 1.0.2
 - Target nel push (per discriminare a quale target inviare) INCOMPLETE
 - Grab della url nel messaggio INCOMPLETE
 - Push con MQTT INCOMPLETE/TESTING
+
+Release 1.1.0
+-------------
+- Migration to Django 1.8.19
+- Add Dockerfile for application
+- Add docker-compose for full environment

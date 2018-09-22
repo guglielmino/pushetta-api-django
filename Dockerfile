@@ -2,6 +2,15 @@ FROM python:2.7.15-alpine3.6
 
 ENV PYTHONUNBUFFERED 1
 
+RUN set -e; \
+    apk add --no-cache --virtual .build-deps  \
+    gcc \
+    libc-dev \
+    linux-headers \
+    mariadb-dev \
+    libffi-dev
+
+
 RUN adduser -D -g '' pushetta
 
 WORKDIR /usr/src/app
@@ -17,5 +26,6 @@ USER pushetta
 
 EXPOSE 8001
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
 CMD ["uwsgi", "--ini", "/usr/src/app/pushetta/pushetta/uwsgi.ini"]
+
