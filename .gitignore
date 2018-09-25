@@ -27,3 +27,5 @@ venv/pip-selfcheck.json
 *.env
 /venv/
 
+# persistent volumes
+volumes/
