@@ -110,10 +110,6 @@ TEMPLATES = [
                 'django.core.context_processors.media',
                 'django.core.context_processors.request',
                 'django.core.context_processors.tz',
-
-                
-
-
             ]
         },
     },
@@ -129,11 +125,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DATABASE_NAME', 'pushetta'),
-        'TEST_NAME': os.getenv('TEST_DATABASE_NAME', 'pushetta_test'),
         'USER': os.getenv('DATABASE_USER', 'pushetta_usr'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'Pu$h3tta'),
         'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
         'PORT': os.getenv('DATABASE_PORT', '3306'),
+        'TEST': {
+            'NAME': os.getenv('TEST_DATABASE_NAME', 'pushetta_test'),
+        }
     }
 }
 
@@ -196,7 +194,7 @@ MEDIA_URL = '/uploads/'
 
 # Credenziali per il push su Mosquitto
 MOSQ_HOST = os.getenv("MOSQ_HOST", "locahost")
-MOSQ_PORT = os.getenv("MOSQ_PORT", 1884)
+MOSQ_PORT = os.getenv("MOSQ_PORT", 1883)
 MOSQ_USERNAME = os.getenv("MOSQ_USERNAME", "USER")
 MOSQ_PASSWORD = os.getenv("MOSQ_PASSWORD", "PASSWORD")
 # Configurazione per il brocker di backend di Celery
@@ -285,23 +283,23 @@ SWAGGER_SETTINGS = {
 }
 
 # Configurazione per l'utilizzo di Redis
-REDIS_DB = os.getenv('REDIS_DB', '0')
+REDIS_DB = os.getenv('REDIS_DB', 0)
 REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
-REDIS_PORT =  os.getenv('REDIS_PORT', '6379')
+REDIS_PORT =  os.getenv('REDIS_PORT', 6379)
 REDIS_KEY_PREFIX = os.getenv('REDIS_KEY_PREFIX', 'ptta_dev')
 
 # Google cloud messaging
-GCM_KEY = ""
+GCM_KEY = os.getenv('GCM_KEY', '')
 
 # Apple APNS
-APNS_CERT_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem")
-APNS_KEY_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem")
-APNS_IS_SANDBOX = True
+APNS_CERT_FILE = os.getenv('APNS_CERT_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem"))
+APNS_KEY_FILE = os.getenv('APNS_KEY_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem"))
+APNS_IS_SANDBOX = os.getenv('APNS_IS_SANDBOX', True)
 
 # Push notifications on Safari browser
-APNS_SAFARI_CERT_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem")
-APNS_SAFARI_KEY_FILE = os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem")
-APNS_SAFARI_IS_SANDBOX = True
+APNS_SAFARI_CERT_FILE = os.getenv('APNS_SAFARI_CERT_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem"))
+APNS_SAFARI_KEY_FILE = os.getenv('APNS_SAFARI_KEY_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem"))
+APNS_SAFARI_IS_SANDBOX = os.getenv('APNS_SAFARI_IS_SANDBOX', True)
 
 # Durata dei token OTT (un mese)
 OTT_DURATION_SECONDS = 259200
@@ -321,85 +319,45 @@ LOGGING = {
         },
     },
     'handlers': {
-        'logfile': {
-            'level': 'INFO',
-            'filters': None,
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', 'log/pushetta-{0}.log'.format(ENVIRONMENT)),
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 3,
-            'formatter': 'standard'
+        'console': {
+            'class': 'logging.StreamHandler',
         },
-        'debug_logfile': {
-            'level': 'DEBUG',
-            'filters': None,
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', 'log/debug-{0}.log'.format(ENVIRONMENT)),
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 5,
-            'formatter': 'standard'
-        },
-        'default_logger': {
-            'level': 'WARNING',
-            'filters': None,
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', 'log/default-{0}.log'.format(ENVIRONMENT)),
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 2,
-            'formatter': 'standard'
-        },
-        'celery_logger': {
-            'level': 'DEBUG',
-            'filters': None,
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', 'log/celery-{0}.log'.format(ENVIRONMENT)),
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 2,
-            'formatter': 'standard'
-        },
-        'celery_task_logger': {
-            'level': 'DEBUG',
-            'filters': None,
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, '..', 'log/celery-tasks-{0}.log'.format(ENVIRONMENT)),
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 2,
-            'formatter': 'standard'
-        },
+        
+        
     },
     'loggers': {
         '': {
-            'handlers': ['default_logger'],
+            'handlers': ['console'],
             'level': 'WARNING',
             'propagate': True,
         },
         'django': {
-            'handlers': ['logfile'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         },
         'feedmanager': {
-            'handlers': ['logfile', 'debug_logfile'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'recipemanager': {
-            'handlers': ['logfile', 'debug_logfile'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'menumanager': {
-            'handlers': ['logfile', 'debug_logfile'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'core.tasks': {
-            'handlers': ['celery_task_logger'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'celery': {
-            'handlers': ['celery_logger'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },

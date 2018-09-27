@@ -8,8 +8,8 @@ RUN set -e; \
     libc-dev \
     linux-headers \
     mariadb-dev \
-    libffi-dev
-
+    libffi-dev \
+    libxml2-dev
 
 RUN adduser -D -g '' pushetta
 
