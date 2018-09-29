@@ -19,6 +19,16 @@ import os
 import sys
 import datetime
 
+# Helper to read bool value from env variable
+
+
+def getEnvBool(default, defvalue):
+    value = os.getenv(default, defvalue)
+    if value in ('False', 'false', '0'):
+        return False
+    return bool(value)
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -88,15 +98,14 @@ STATICFILES_FINDERS = (
 )
 
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ 
+        'DIRS': [
             os.path.join(BASE_DIR, '..', 'templates/'),
             os.path.join(BASE_DIR, '..', 'templates/www/'),
             os.path.join(BASE_DIR, '..', 'templates/search/'),
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': True,
@@ -198,7 +207,8 @@ MOSQ_PORT = os.getenv("MOSQ_PORT", 1883)
 MOSQ_USERNAME = os.getenv("MOSQ_USERNAME", "USER")
 MOSQ_PASSWORD = os.getenv("MOSQ_PASSWORD", "PASSWORD")
 # Configurazione per il brocker di backend di Celery
-BROKER_URL = os.getenv("BROKER_URL", 'amqp://USER:PASSWORD@localhost:5672/pushetta')
+BROKER_URL = os.getenv(
+    "BROKER_URL", 'amqp://USER:PASSWORD@localhost:5672/pushetta')
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TIMEZONE = os.getenv("CELERY_TIMEZONE", 'Europe/Rome')
 
@@ -285,21 +295,25 @@ SWAGGER_SETTINGS = {
 # Configurazione per l'utilizzo di Redis
 REDIS_DB = os.getenv('REDIS_DB', 0)
 REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
-REDIS_PORT =  os.getenv('REDIS_PORT', 6379)
+REDIS_PORT = os.getenv('REDIS_PORT', 6379)
 REDIS_KEY_PREFIX = os.getenv('REDIS_KEY_PREFIX', 'ptta_dev')
 
 # Google cloud messaging
 GCM_KEY = os.getenv('GCM_KEY', '')
 
 # Apple APNS
-APNS_CERT_FILE = os.getenv('APNS_CERT_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem"))
-APNS_KEY_FILE = os.getenv('APNS_KEY_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-dev.pem"))
-APNS_IS_SANDBOX = os.getenv('APNS_IS_SANDBOX', True)
+APNS_CERT_FILE = os.getenv('APNS_CERT_FILE', os.path.join(
+    BASE_DIR, '..', "certs/", "cert-dev.pem"))
+APNS_KEY_FILE = os.getenv('APNS_KEY_FILE', os.path.join(
+    BASE_DIR, '..', "certs/", "cert-dev.pem"))
+APNS_IS_SANDBOX = getEnvBool('APNS_IS_SANDBOX', True)
 
 # Push notifications on Safari browser
-APNS_SAFARI_CERT_FILE = os.getenv('APNS_SAFARI_CERT_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem"))
-APNS_SAFARI_KEY_FILE = os.getenv('APNS_SAFARI_KEY_FILE', os.path.join(BASE_DIR, '..', "certs/", "cert-safari-dev.pem"))
-APNS_SAFARI_IS_SANDBOX = os.getenv('APNS_SAFARI_IS_SANDBOX', True)
+APNS_SAFARI_CERT_FILE = os.getenv('APNS_SAFARI_CERT_FILE', os.path.join(
+    BASE_DIR, '..', "certs/", "cert-safari-dev.pem"))
+APNS_SAFARI_KEY_FILE = os.getenv('APNS_SAFARI_KEY_FILE', os.path.join(
+    BASE_DIR, '..', "certs/", "cert-safari-dev.pem"))
+APNS_SAFARI_IS_SANDBOX = getEnvBool('APNS_SAFARI_IS_SANDBOX', True)
 
 # Durata dei token OTT (un mese)
 OTT_DURATION_SECONDS = 259200
@@ -322,8 +336,8 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
         },
-        
-        
+
+
     },
     'loggers': {
         '': {
@@ -338,27 +352,27 @@ LOGGING = {
         },
         'feedmanager': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'recipemanager': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'menumanager': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'core.tasks': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'celery': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     }
