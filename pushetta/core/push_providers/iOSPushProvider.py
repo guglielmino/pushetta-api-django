@@ -1,6 +1,6 @@
 # coding=utf-8
 
-# Progetto: Pushetta API 
+# Progetto: Pushetta API
 # Provider for push to Apple Push Message System
 
 import logging
@@ -53,32 +53,42 @@ class iOSPushProvider(BaseProvider):
         if send_count > 0:
             try:
                 # USO l'apns enanched
-                self.apns = APNs(use_sandbox=settings.APNS_IS_SANDBOX, cert_file=settings.APNS_CERT_FILE, enhanced=True)
+                self.log_info("settings.APNS_IS_SANDBOX = {0}".format(
+                    settings.APNS_IS_SANDBOX))
 
-                payload = Payload(alert=message.alert_msg, sound="notification.aiff", badge=1, custom=message.data_dic)
+                self.apns = APNs(use_sandbox=settings.APNS_IS_SANDBOX,
+                                 cert_file=settings.APNS_CERT_FILE, enhanced=True)
+
+                payload = Payload(
+                    alert=message.alert_msg, sound="notification.aiff", badge=1, custom=message.data_dic)
 
                 # TODO: Gestire l'expire
-                expiry = time.time() + 3600 * 24 * 30  # Expire in un mese di default (TODO: Ricavare dai dati passati)
+                # Expire in un mese di default (TODO: Ricavare dai dati passati)
+                expiry = time.time() + 3600 * 24 * 30
 
                 priority = 10
                 for token in destToken:
-                    self.log_info("iOSPushProvider -- send token {0}".format(token))
+                    self.log_debug(
+                        "iOSPushProvider -- send token {0}".format(token))
                     identifier = random.getrandbits(32)
-                    self.apns.gateway_server.register_response_listener(self.response_listener)
-                    self.apns.gateway_server.send_notification(token, payload, identifier=identifier)
+                    self.apns.gateway_server.register_response_listener(
+                        self.response_listener)
+                    self.apns.gateway_server.send_notification(
+                        token, payload, identifier=identifier)
 
                 # Get feedback messages.
                 for (token_hex, fail_time) in self.apns.feedback_server.items():
-                    self.log_info("iOSPushProvider -- feedback token {0} fail time {1}".format(token_hex, fail_time))
+                    self.log_info(
+                        "iOSPushProvider -- feedback token {0} fail time {1}".format(token_hex, fail_time))
                 delay = self.wait_till_error_response_unchanged()
                 self.apns.gateway_server.force_close()
             except:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
-                lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
-                self.log_error("iOSPushProvider -- exception {0}".format(''.join('!! ' + line for line in lines)))
+                lines = traceback.format_exception(
+                    exc_type, exc_value, exc_traceback)
+                self.log_error(
+                    "iOSPushProvider -- exception {0}".format(''.join('!! ' + line for line in lines)))
         else:
             self.log_info("Nothing to send for iOSPushProvider")
 
         return send_count
-
-

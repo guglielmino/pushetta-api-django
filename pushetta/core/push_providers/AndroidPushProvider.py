@@ -30,7 +30,7 @@ class AndroidPushProvider(BaseProvider):
             dic_obj = {'alert_msg': message.alert_msg, 'data_dic': message.data_dic, 'push_type': message.push_type}
             response = self.gcm.json_request(registration_ids=destToken, data=dic_obj, delay_while_idle=False)
 
-            self.log_info(str(response))
+            self.log_debug(str(response))
 
             # Handling errors
             if 'errors' in response:

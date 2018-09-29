@@ -1,6 +1,6 @@
 # coding=utf-8
 
-# Progetto: Pushetta API 
+# Progetto: Pushetta API
 # Common for push providers
 
 
@@ -21,18 +21,21 @@ class PushProviderException(Exception):
 
 
 # Base class for all providers
+# TODO: logging management is a crap!!! Please refactor
 class BaseProvider(object):
     logger = None
-    
+
+    def log_debug(self, message):
+        if self.logger != None:
+            self.logger.debug(message)
+
     def log_info(self, message):
-        if self.logger != None:        
-            self.logger.info(message) 
-  
+        if self.logger != None:
+            self.logger.info(message)
+
     def log_error(self, message):
-        if self.logger != None:        
-            self.logger.error(message) 
-   
- 
+        if self.logger != None:
+            self.logger.error(message)
+
     def pushMessage(self, message, tokens, channel_name):
         raise NotImplementedError("Method must be implemented from subclass")
-   
