@@ -34,7 +34,7 @@ def push_messages(pmsg, channel_name, platform):
 
     sub_tokens = SubscriberManager().get_subscribers(channel_name, platform)
 
-    logger.info("Pushing {0} tokens to channel {1} for platform {2}".format(len(sub_tokens), channel_name, platform))
+    logger.debug("Pushing {0} tokens to channel {1} for platform {2}".format(len(sub_tokens), channel_name, platform))
 
     #  PUSH EFFETTIVO
     pusher = PushProviderFactory.create(platform, logger)
