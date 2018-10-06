@@ -6,7 +6,7 @@ services:
 install: []
 
 script:
-  - export TAG_VER=`cat pushetta/pushetta/__init__.py|grep __version__| awk '{split($0, a, "="); print a[2]  }'|sed "s/'//g"`
+  - export TAG_VER=`cat pushetta/pushetta/__init__.py|grep __version__| awk '{split($0, a, "="); print a[2]  }'|sed "s/'//g"| sed "s/ //g"`
   - docker build -t "guglielmino/pushetta-api:$TAG_VER" .
 
 deploy:
