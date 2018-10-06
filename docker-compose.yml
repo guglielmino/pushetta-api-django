@@ -3,6 +3,7 @@ version: '3'
 services:
   pushetta:
     container_name: pushetta-be
+    command: python pushetta/manage.py runserver 0.0.0.0:8001
     build:
       context: .
     expose:
@@ -13,7 +14,6 @@ services:
       - db
       - redis
       - elastic
-      - rabbit
     env_file:
       - ./pushetta.env
     volumes:
@@ -30,17 +30,7 @@ services:
       - ./database.env
     volumes:
       - ./volumes/database/:/var/lib/mysql/
-
-  rabbit:
-    image: rabbitmq:3-management
-    container_name: rabbit
-    expose:
-      - 5672
-    ports:
-      - 5672:5672
-      - 15672:15672
-    env_file:
-      - ./rabbit.env
+      - ./volumes/conf/my.cnf:/etc/mysql/my.cnf
 
   elastic:
     image: elasticsearch:2

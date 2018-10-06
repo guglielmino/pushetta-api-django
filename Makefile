@@ -16,4 +16,3 @@ start:
 	python pushetta/manage.py runserver
 
 
-

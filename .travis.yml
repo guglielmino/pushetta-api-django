@@ -6,10 +6,11 @@ services:
 install: []
 
 script:
-  - docker build -t guglielmino/pushetta-api .
+  - export TAG_VER=`cat pushetta/pushetta/__init__.py|grep __version__| awk '{split($0, a, "="); print a[2]  }'|sed "s/'//g"`
+  - docker build -t guglielmino/pushetta-api:TAG_VER .
 
 deploy:
   provider: script
-  script: bash docker_push
+  script: bash docker_push $TAG_VER
   on:
     branch: feature/travis-ci

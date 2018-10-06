@@ -1,6 +1,6 @@
 # coding=utf-8
 
-# Progetto: Pushetta API 
+# Progetto: Pushetta API
 # push provider for Safari browser push notification
 
 import logging
@@ -19,25 +19,28 @@ from common import PushMessage, BaseProvider, PushProviderException
 SEND_INTERNAL = 0.01
 
 # Custom payload class fr Safari
+
+
 class PayloadSafari(Payload):
- 
+
     def __init__(self, alert=None, url_args=[]):
         super(Payload, self).__init__()
         self.alert = alert
         self.url_args = url_args
         self._check_size()
- 
+
     def dict(self):
         d = {"alert": self.alert, "url-args": self.url_args}
         d = {'aps': d}
         #print d
         return d
-        
-        
+
+
 class SafariPushProvider(BaseProvider):
 
     def response_listener(self, error_response):
-        self.log_info("client get error-response: " + str(error_response))
+        self.log_info(
+            "SafariProvider:client get error-response: " + str(error_response))
 
     def wait_till_error_response_unchanged(self):
 
@@ -64,33 +67,41 @@ class SafariPushProvider(BaseProvider):
         if send_count > 0:
             try:
                 # USO l'apns enanched
-                self.apns = APNs(use_sandbox=settings.APNS_IS_SANDBOX, cert_file=settings.APNS_SAFARI_CERT_FILE, enhanced=True)
+                self.apns = APNs(use_sandbox=settings.APNS_IS_SANDBOX,
+                                 cert_file=settings.APNS_SAFARI_CERT_FILE, enhanced=True)
 
-                alert_dict = {"title": message.alert_msg[:40], "body": message.alert_msg, "action": "View"}
-                payload = PayloadSafari(alert=alert_dict, url_args = [message.data_dic['channel_name']])
+                alert_dict = {
+                    "title": message.alert_msg[:40], "body": message.alert_msg, "action": "View"}
+                payload = PayloadSafari(alert=alert_dict, url_args=[
+                                        message.data_dic['channel_name']])
 
                 # TODO: Gestire l'expire
-                expiry = time.time() + 3600 * 24 * 30  # Expire in un mese di default (TODO: Ricavare dai dati passati)
+                # Expire in un mese di default (TODO: Ricavare dai dati passati)
+                expiry = time.time() + 3600 * 24 * 30
 
                 priority = 10
                 for token in destToken:
-                    self.log_info("SafariPushProvider -- send token {0}".format(token))
+                    self.log_info(
+                        "SafariPushProvider -- send token {0}".format(token))
                     identifier = random.getrandbits(32)
-                    self.apns.gateway_server.register_response_listener(self.response_listener)
-                    self.apns.gateway_server.send_notification(token, payload, identifier=identifier)
+                    self.apns.gateway_server.register_response_listener(
+                        self.response_listener)
+                    self.apns.gateway_server.send_notification(
+                        token, payload, identifier=identifier)
 
                 # Get feedback messages.
                 for (token_hex, fail_time) in self.apns.feedback_server.items():
-                    self.log_info("SafariPushProvider -- feedback token {0} fail time {1}".format(token_hex, fail_time))
+                    self.log_info(
+                        "SafariPushProvider -- feedback token {0} fail time {1}".format(token_hex, fail_time))
                 delay = self.wait_till_error_response_unchanged()
                 self.apns.gateway_server.force_close()
             except:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
-                lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
-                self.log_error("SafariPushProvider -- exception {0}".format(''.join('!! ' + line for line in lines)))
+                lines = traceback.format_exception(
+                    exc_type, exc_value, exc_traceback)
+                self.log_error(
+                    "SafariPushProvider -- exception {0}".format(''.join('!! ' + line for line in lines)))
         else:
             self.log_info("Nothing to send for SafariPushProvider")
 
-
         return send_count
-

@@ -158,6 +158,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-/pushetta.env
-/database.env
-/venv/
+*.env
+
+docker_push
+docker-compose.yml
+Dockerfile

@@ -26,7 +26,8 @@ SEND_INTERNAL = 0.01
 class iOSPushProvider(BaseProvider):
 
     def response_listener(self, error_response):
-        self.log_info("client get error-response: " + str(error_response))
+        self.log_info(
+            "iOSprovider:client get error-response: " + str(error_response))
 
     def wait_till_error_response_unchanged(self):
 
@@ -52,10 +53,8 @@ class iOSPushProvider(BaseProvider):
         send_count = len(destToken)
         if send_count > 0:
             try:
-                # USO l'apns enanched
-                self.log_info("settings.APNS_IS_SANDBOX = {0}".format(
-                    settings.APNS_IS_SANDBOX))
 
+                # USO l'apns enanched
                 self.apns = APNs(use_sandbox=settings.APNS_IS_SANDBOX,
                                  cert_file=settings.APNS_CERT_FILE, enhanced=True)
 
@@ -68,7 +67,7 @@ class iOSPushProvider(BaseProvider):
 
                 priority = 10
                 for token in destToken:
-                    self.log_debug(
+                    self.log_info(
                         "iOSPushProvider -- send token {0}".format(token))
                     identifier = random.getrandbits(32)
                     self.apns.gateway_server.register_response_listener(
