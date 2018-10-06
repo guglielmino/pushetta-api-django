@@ -13,4 +13,4 @@ deploy:
   provider: script
   script: bash docker_push $TAG_VER
   on:
-    branch: feature/travis-ci
+    branch: master
