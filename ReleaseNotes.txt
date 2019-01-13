@@ -1,9 +1,17 @@
-Release 1.0.1
+
+Release 1.1.2
 -------------
-- Codice per ethernet shield
-- Push su browser Safari
-- Push su browser chrome (con extension)
-- Packaging della lib per Python
+- Renamed PUSHETTA_ALLOWED_HOST in PUSHETTA_ALLOWED_HOSTS supporting multiple hostnames (comma separated)
+
+Release 1.1.1
+-------------
+- Add PUSHETTA_ALLOWED_HOST to defining binding hostname from env var
+
+Release 1.1.0
+-------------
+- Migration to Django 1.8.19
+- Add Dockerfile for application
+- Add docker-compose for full environment
 
 Release 1.0.2
 -------------
@@ -11,8 +19,9 @@ Release 1.0.2
 - Grab della url nel messaggio INCOMPLETE
 - Push con MQTT INCOMPLETE/TESTING
 
-Release 1.1.0
+Release 1.0.1
 -------------
-- Migration to Django 1.8.19
-- Add Dockerfile for application
-- Add docker-compose for full environment
+- Codice per ethernet shield
+- Push su browser Safari
+- Push su browser chrome (con extension)
+- Packaging della lib per Python
