@@ -50,7 +50,7 @@ PyJWT==0.2.1
 pyOpenSSL==16.2.0
 pysolr==3.2.0
 python-dateutil==2.2
-python-gcm==0.1.5
+pyfcm==1.4.7
 python-mpns==0.1.6
 python-openid==2.2.5
 pytz==2014.2

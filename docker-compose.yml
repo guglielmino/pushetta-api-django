@@ -30,7 +30,6 @@ services:
       - ./database.env
     volumes:
       - ./volumes/database/:/var/lib/mysql/
-      - ./volumes/conf/my.cnf:/etc/mysql/my.cnf
 
   elastic:
     image: elasticsearch:2

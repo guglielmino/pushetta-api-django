@@ -8,16 +8,16 @@ import logging
 import sys
 import traceback
 import random
-from gcm import GCM
+from pyfcm import FCMNotification
 from django.conf import settings
 
 from common import BaseProvider
 
-# Doc per implementazione qui https://github.com/geeknam/python-gcm
+# Samples for FCM pip module here https://github.com/olucurious/pyfcm
 
 class AndroidPushProvider(BaseProvider):
     def __init__(self):
-        self.gcm = GCM(settings.GCM_KEY)
+        self.gcm = FCMNotification(api_key=settings.FCM_SERVER_KEY)
 
 
     def pushMessage(self, message, destToken, channel_name):
@@ -28,7 +28,7 @@ class AndroidPushProvider(BaseProvider):
             # TODO: gestione del ttl
             # Nota: converto in un dict perché altrimenti il serializzatore non riesce a lavorare sul PushMessage
             dic_obj = {'alert_msg': message.alert_msg, 'data_dic': message.data_dic, 'push_type': message.push_type}
-            response = self.gcm.json_request(registration_ids=destToken, data=dic_obj, delay_while_idle=False)
+            response = self.gcm.notify_multiple_devices(registration_ids=destToken, message_title=message.alert_msg, message_body=dic_obj)
 
             self.log_debug(str(response))
 

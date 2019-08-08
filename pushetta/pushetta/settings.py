@@ -298,8 +298,8 @@ REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
 REDIS_PORT = os.getenv('REDIS_PORT', 6379)
 REDIS_KEY_PREFIX = os.getenv('REDIS_KEY_PREFIX', 'ptta_dev')
 
-# Google cloud messaging
-GCM_KEY = os.getenv('GCM_KEY', '')
+# FCM cloud messaging (replaces GCM)
+FCM_SERVER_KEY = os.getenv('FCM_SERVER_KEY', '')
 
 # Apple APNS
 APNS_CERT_FILE = os.getenv('APNS_CERT_FILE', os.path.join(
