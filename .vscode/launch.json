@@ -13,8 +13,8 @@
                 "runserver",
                 "--noreload"
             ],
-            "django": true,
-            "envFile": "${workspaceFolder}/pushetta_vscode.env"
+            "django": true
+         
         }
     ]
 }

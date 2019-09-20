@@ -7,7 +7,7 @@ install:
 	pip install -r requirements.txt
 
 compose-services:
-	docker-compose up -d db rabbit elastic redis mosquitto 
+	docker-compose up -d db elastic redis mosquitto 
 
 compose-full:
 	docker-compose up -d

@@ -28,8 +28,8 @@ class AndroidPushProvider(BaseProvider):
             # TODO: gestione del ttl
             # Nota: converto in un dict perché altrimenti il serializzatore non riesce a lavorare sul PushMessage
             dic_obj = {'alert_msg': message.alert_msg, 'data_dic': message.data_dic, 'push_type': message.push_type}
-            response = self.gcm.notify_multiple_devices(registration_ids=destToken, message_title=message.alert_msg, data_message=dic_obj)
-            
+            response = self.gcm.notify_multiple_devices(registration_ids=destToken, message_title=message.alert_msg, message_body=dic_obj)
+
             self.log_debug(str(response))
 
             # Handling errors
