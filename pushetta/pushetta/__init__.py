@@ -6,5 +6,5 @@ from __future__ import absolute_import
 from .celery import app as celery_app
 from core import signal
 
-__version__ = '1.1.3'
+__version__ = '1.1.4'
 __build__ = ''
