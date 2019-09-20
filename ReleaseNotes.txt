@@ -1,3 +1,7 @@
+Release 1.1.5
+-------------
+- Fix FCM payload format to handle tray area message
+
 Release 1.1.4
 -------------
 - Refactor Android push provider to manage FCM data payload
