@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-env
-data:
-  MYSQL_ROOT_PASSWORD: cbnN9hz9
-  MYSQL_DATABASE: pushetta
-  MYSQL_USER: pushetta_usr
-  MYSQL_PASSWORD: Pu$h3tta
