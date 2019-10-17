@@ -19,10 +19,11 @@ COPY requirements.txt ./
 # pip doesn't follow requirements file order then the following hack
 RUN cat requirements.txt | xargs -n 1 pip install --no-cache-dir
 COPY . .
+COPY dev_static/ static/
 
 RUN chown -R pushetta /usr/src/app
 
-USER pushetta
+#USER pushetta
 
 EXPOSE 8001
 

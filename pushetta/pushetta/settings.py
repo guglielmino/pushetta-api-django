@@ -47,7 +47,7 @@ if BOOTSTRAP3_FOLDER not in sys.path:
 SECRET_KEY = '2j*v4+t16tdb%18@*%&$d*5=*o_9+h@&2831ejutfh^msa&2*n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getEnvBool('DEBUG', False)
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1'] + os.getenv('PUSHETTA_ALLOWED_HOSTS').split(',')
 SITE_ID = 1
@@ -200,6 +200,8 @@ BOOTSTRAP3 = {
 # Media (file uploads)
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploads/')
 MEDIA_URL = '/uploads/'
+
+SERVE_STATIC = getEnvBool('SERVE_STATIC', True)
 
 # Credenziali per il push su Mosquitto
 MOSQ_HOST = os.getenv("MOSQ_HOST", "locahost")

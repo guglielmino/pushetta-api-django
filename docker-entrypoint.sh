@@ -2,6 +2,8 @@
 
 set -e
 
+mkdir -p /usr/src/app/log/
+
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
     python pushetta/manage.py migrate --noinput
 fi

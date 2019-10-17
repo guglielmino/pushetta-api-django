@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^api/', include('api.urls')),
 ]
 
-if settings.ENVIRONMENT == "dev":
+if settings.SERVE_STATIC == True:
     urlpatterns.append(url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}))
     urlpatterns.append(url(r'^uploads/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}))
     

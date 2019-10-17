@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pushetta-be-env
+data:
+  TAG: 0.0.1
+  PUSHETTA_ALLOWED_HOSTS: stage.pushetta.com,www.pushetta.com,api.pushetta.com
+  DJANGO_ENV: prod
+  DATABASE_HOST: mysql
+  DATABASE_PORT: "3306"
+  DATABASE_NAME: pushetta
+  DATABASE_USER: pushetta_usr
+  DATABASE_PASSWORD: Pu$h3tta
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_KEY_PREFIX: ptta
+  REDIS_DB: "4"
+  AWS_ACCESS_KEY_ID: AKIAJMVKF4KTBPAWCBEQ
+  AWS_SECRET_ACCESS_KEY: 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
+  DEFAULT_FROM_EMAIL: info@pushetta.com
+  APNS_CERT_FILE: /usr/share/pushetta/certs/cert-prod.pem
+  APNS_KEY_FILE: /usr/share/pushetta/certs/cert-prod.pem
+  APNS_IS_SANDBOX: "0"
+  APNS_SAFARI_CERT_FILE: /usr/share/pushetta/certs/cert-safari-prod.pem
+  APNS_SAFARI_KEY_FILE: /usr/share/pushetta/certs/cert-safari-prod.pem
+  APNS_SAFARI_IS_SANDBOX: "0"
+  GCM_KEY: AIzaSyBr7LY6TbpP_bOrlbdPnnO7GDwd9JKdn_c
+  FCM_SERVER_KEY: AAAAVP8RWoo:APA91bGISqZbDnhUqLc9bd1igtYi4sNN70SwPOmk9Cm2XoqBZ6d0l04oPJTH8Ks9uFD790fu9BvvwtJJC4iF7AXeRHZsmDSH--4bOTHcXJsUxNGKanm4pfGCFk-JdTpqimL5Mogx1zJk
+  MOSQ_HOST: mosquitto
+  MOSQ_PORT: "1883"
+  MOSQ_USERNAME: pushetta-api
+  MOSQ_PASSWORD: BtmhJELz
+  BROKER_URL: redis://redis:6379/4
+  ELASTIC_URL: http://elastic:9200/

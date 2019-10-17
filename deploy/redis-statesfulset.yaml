@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis  # has to match .spec.template.metadata.labels
+  serviceName: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis  # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+        - name: redis
+          image: redis:3.2-alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-persistent-storage
+              mountPath: /data
+      volumes:
+        - name: redis-persistent-storage
+          persistentVolumeClaim:
+            claimName: redis-volumeclaim
