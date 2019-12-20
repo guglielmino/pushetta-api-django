@@ -47,7 +47,7 @@ pycparser==2.10
 pycrypto==2.6.1
 pyelasticsearch==1.4.1
 PyJWT==0.2.1
-pyOpenSSL==16.2.0
+pyOpenSSL==17.5.0
 pysolr==3.2.0
 python-dateutil==2.2
 pyfcm==1.4.7
