@@ -55,7 +55,7 @@ python-mpns==0.1.6
 python-openid==2.2.5
 pytz==2014.2
 redis==2.9.1
-requests==2.19.1
+requests==2.20.0
 requests-oauthlib==0.4.0
 rsa==3.1.4
 shortuuid==0.4.2
