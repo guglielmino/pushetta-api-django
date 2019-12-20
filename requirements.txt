@@ -21,7 +21,7 @@ django-rest-swagger==0.1.14
 django-ses==0.6.0
 django-taggit===0.21.1
 django-websocket-redis==0.4.1
-djangorestframework==2.4.8
+djangorestframework==3.9.1
 djangorestframework-jwt==0.1.4
 docutils==0.11
 drf-compound-fields==0.2.2
