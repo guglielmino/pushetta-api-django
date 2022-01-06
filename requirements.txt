@@ -5,7 +5,7 @@ asn1crypto==0.24.0
 billiard==3.3.0.16
 bitarray==0.8.1
 boto==2.39.0
-celery==3.1.10
+celery==5.2.2
 certifi==2018.8.24
 cffi==1.11.5
 chardet==3.0.4
